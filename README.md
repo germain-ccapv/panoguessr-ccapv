@@ -4,4 +4,4 @@
 
 ![Logo PanoGuessr](<Logo PanoGuessr.png>)
 
-"Where is this Panoramax picture located again?"
+"Where is this [Panoramax](https://gitlab.com/groups/panoramax) picture located again?"
