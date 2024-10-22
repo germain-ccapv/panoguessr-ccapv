@@ -1,8 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4
-  },
-  compatibilityDate: '2024-10-10',
-  devtools: { enabled: true }
+    future: {
+        compatibilityVersion: 4
+    },
+    compatibilityDate: '2024-10-10',
+
+    css: [
+        '@/assets/styles/global.scss',
+        '@panoramax/web-viewer/build/index.css'
+    ],
+
+    devtools: {
+        enabled: false
+    }
 })
