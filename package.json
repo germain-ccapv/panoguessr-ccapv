@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/leaflet": "^1.2.3",
     "@panoramax/web-viewer": "^3.1.0",
+    "@vue-leaflet/vue-leaflet": "^0.10.1",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
