@@ -1,4 +1,7 @@
-export type GeoPoint = [number, number];
+export type GeoPoint = {
+  lat: number;
+  lng: number;
+};
 
 export type GeoBoundingBox = {
   minLng: number;
