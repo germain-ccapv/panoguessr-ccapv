@@ -15,12 +15,15 @@ export function getGeoJSONBoudingBox(polygon: GeoCoordinatesPolygon): GeoBoundin
 export function getRandomPointInBoundingBox(bbox: GeoBoundingBox): GeoPoint {
   const lat = Math.random() * (bbox.maxLat - bbox.minLat) + bbox.minLat;
   const lng = Math.random() * (bbox.maxLng - bbox.minLng) + bbox.minLng;
-  return [lng, lat];
+  return {
+    lat,
+    lng,
+  };
 }
 
 export function isPointInPolygon(point: GeoPoint, polygon: GeoCoordinatesPolygon): boolean {
-  const x = point[0];
-  const y = point[1];
+  const x = point.lng;
+  const y = point.lat;
   let inside = false;
 
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
