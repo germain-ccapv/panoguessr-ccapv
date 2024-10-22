@@ -1,4 +1,14 @@
 <script setup lang="ts">
+const { data } = useFetch("/api/start-new-game", {
+  method: 'POST'
+});
+
+const pictureId = ref<string | null>(null);
+
+watch(data, () => {
+  pictureId.value = data.value.locationId
+})
+
 function onValidate(position: any) {
   // TODO: Send validation to the API
   console.log({position});
@@ -7,8 +17,11 @@ function onValidate(position: any) {
 
 <template>
   <div class="page">
-    <MapViewer picture-id="f99e2bf3-a8c5-4ae0-824e-4f1bfa3f7caa"/>
-    <MapSelect @validate="onValidate"/>
+    <div v-if="!pictureId" class="loading">Chargement...</div>
+    <template v-else>
+      <MapViewer :picture-id="pictureId"/>
+      <MapSelect @validate="onValidate"/>
+    </template>
   </div>
 </template>
 
