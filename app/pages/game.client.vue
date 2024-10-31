@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type {GeoPoint} from "~~/types/geo";
+
 const { data } = useFetch("/api/start-new-game", {
   method: 'POST'
 });
@@ -9,9 +11,16 @@ watch(data, () => {
   pictureId.value = data.value.locationId
 })
 
-function onValidate(position: any) {
-  // TODO: Send validation to the API
-  console.log({position});
+async function onValidate(position: GeoPoint) {
+  const resp = await $fetch(`/api/end-game`, {
+    method: 'POST',
+    body: {
+      originPicId: pictureId.value,
+      guessPosition: position,
+    }
+  });
+
+  alert("Distance : " + resp.distance_meters);
 }
 </script>
 

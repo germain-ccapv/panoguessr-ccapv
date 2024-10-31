@@ -5,6 +5,10 @@ type EndGameRequest = {
   guessPosition: GeoPoint;
 }
 
+type EndGameResponse = {
+  distance_meters: number
+}
+
 function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
   const toRadians = (degree: number) => (degree * Math.PI) / 180;
 
@@ -58,7 +62,7 @@ async function getPicturePosition(pictureId: string): Promise<GeoPoint> {
   return { lat, lng };
 }
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<EndGameResponse> => {
   const body = await readBody(event) as EndGameRequest;
   if (!body) {
     throw createError({

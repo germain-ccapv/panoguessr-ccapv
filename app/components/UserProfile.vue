@@ -33,7 +33,9 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import '~/assets/styles/global';
+
 .user-profile {
   display: flex;
   flex-direction: column;
@@ -52,13 +54,13 @@ export default {
 
   .username {
     font-family: 'Mahoda', sans-serif;
-    color: var(--white-color);
+    color: $white-color;
   }
 
   .level {
     font-size: 0.75rem;
     font-family: 'Neo Bold', sans-serif;
-    color: var(--white-color);
+    color: $white-color;
   }
 }
 
@@ -70,14 +72,14 @@ export default {
   .progress-bar-container {
     width: 100%;
     height: 8px;
-    background-color: var(--white-color);
+    background-color: $white-color;
     border-radius: 5px;
     overflow: hidden;
   }
 
   .progress-bar {
     height: 100%;
-    background: linear-gradient(to right, var(--yellow-shade-1), var(--yellow-shade-4));
+    background: linear-gradient(to right, $yellow-shade-1, $yellow-shade-4);
     transition: width 0.3s ease;
   }
 }

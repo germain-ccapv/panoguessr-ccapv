@@ -10,6 +10,8 @@
 </template>
 
 <style scoped lang="scss">
+@import '~/assets/styles/global';
+
 .header {
   display: flex;
   width: 100%;
@@ -20,7 +22,7 @@
   .title {
     font-family: "Mahoda", sans-serif;
     font-size: 2rem;
-    color: var(--white-color);
+    color: $white-color;
   }
 
   .header__nav-list {
@@ -33,13 +35,13 @@
 
     a {
       text-decoration: none;
-      color: var(--blue-shade-1);
+      color: $blue-shade-1;
       font-family: "Neo Regular", sans-serif;
       font-size: 1rem;
       &:hover {
         text-underline-offset: 1rem;
-        text-decoration: underline solid var(--white-color);
-        color: var(--white-color);
+        text-decoration: underline solid $white-color;
+        color: $white-color;
         transition: 0.25s;
       }
     }
