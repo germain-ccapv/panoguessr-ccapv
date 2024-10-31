@@ -28,8 +28,12 @@ async function queryPanoramaxAPI(point: GeoPoint): Promise<PanoramaxAPIResponse>
     },
     body: JSON.stringify({
       limit: 1,
-      place_position: `${point.lng},${point.lat}`,
-      place_distance: '0-100000'
+      bbox:  [
+        point.lng - 2,
+        point.lat - 2,
+        point.lng + 2,
+        point.lat + 2
+      ],
     })
   })
   return await response.json();
