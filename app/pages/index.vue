@@ -1,0 +1,111 @@
+<template>
+  <div class="container">
+    <AppHeader/>
+    <div class="homepage">
+      <div class="left">
+        <div class="home-title">Bienvenue !</div>
+        <div class="home-subtitle">PANOGUESSR est un jeu <span style="text-decoration: underline 5px solid var(--blue-shade-1); text-underline-offset: 8px">collaboratif</span> et <span style="text-decoration: underline 5px solid var(--blue-shade-1); text-underline-offset: 8px;">open-source</span> qui teste vos connaissances en géographie.</div>
+        <div class="buttons">
+          <NuxtLink href="/game"><AppButton>Partie solo</AppButton></NuxtLink>
+          <AppButton disabled>Multijoueur <Icon name="tabler:lock"/></AppButton>
+          <AppButton disabled>Partie classée <Icon name="tabler:lock"/></AppButton>
+        </div>
+      </div>
+      <div class="right">
+        <img src="~/assets/world.svg" alt="world" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-inline: 50px;
+  margin-top: 20px;
+  gap: 2rem;
+
+  .homepage {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    height: 100%;
+    gap: 1rem;
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: start;
+      height: 100%;
+      gap: 2rem;
+
+      .home-title {
+        font-family: "Neo Extra", sans-serif;
+        font-size: 4rem;
+        color: var(--white-color);
+      }
+
+      .home-subtitle {
+        font-family: "Neo Extra", sans-serif;
+        font-size: 1.5rem;
+        text-align: justify;
+        line-height: 2.5rem;
+        max-width: 85%;
+        color: var(--white-color);
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 25px;
+        align-items: start;
+        gap: 2rem;
+      }
+    }
+
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+
+      img {
+        transform: scale(0.85);
+        object-fit: cover;
+        animation: bounce 10s infinite;
+      }
+    };
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(-30px); /* Monte en sautillant */
+  }
+
+  50% {
+    transform: translateY(0); /* Écrasement à l'atterrissage */
+  }
+
+  75% {
+    transform: translateY(-15px); /* Petit rebond */
+  }
+}
+</style>
+
+<script setup lang="ts">
+</script>
