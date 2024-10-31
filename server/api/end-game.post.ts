@@ -1,5 +1,10 @@
 import { GeoPoint } from '~~/types/geo';
 
+type EndGameRequest = {
+  originPicId: string;
+  guessPosition: GeoPoint;
+}
+
 function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
   const toRadians = (degree: number) => (degree * Math.PI) / 180;
 
@@ -54,7 +59,7 @@ async function getPicturePosition(pictureId: string): Promise<GeoPoint> {
 }
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
+  const body = await readBody(event) as EndGameRequest;
   if (!body) {
     throw createError({
       statusCode: 400,
@@ -62,23 +67,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const originPicId = body.originPicId;
-  const guessPicId = body.guessPicId;
-
-  if (!originPicId || !guessPicId) {
+  if (!body.originPicId || !body.guessPosition) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'originPicId and guessPicId are required',
+      statusMessage: 'originPicId and guessPosition are required',
     });
   }
 
   try {
-    const [originPoint, guessPoint] = await Promise.all([
-      getPicturePosition(originPicId),
-      getPicturePosition(guessPicId),
-    ]);
+    const originPoint = await getPicturePosition(body.originPicId);
 
-    const distance = haversineDistance(originPoint, guessPoint);
+    const distance = haversineDistance(originPoint, body.guessPosition);
 
     return { distance_meters: Math.round(distance) };
   } catch (error) {
