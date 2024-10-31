@@ -1,3 +1,26 @@
+$blue-shade-1: #cee5dd;
+$blue-shade-2: #a3cec4;
+$blue-shade-3: #55afb3;
+$blue-shade-4: #419fa5;
+
+$yellow-shade-1: #f0cb69;
+$yellow-shade-2: #ecb665;
+$yellow-shade-3: #e58c5c;
+$yellow-shade-4: #dc5a52;
+
+$green-shade-1: #a3e4b3;
+$green-shade-2: #7ddc95;
+$green-shade-3: #4ad577;
+$green-shade-4: #18cf5a;
+
+$black-color: #121212;
+$white-color: #FFF4F4;
+$dark-color: #022932;
+$darker-color: #021c23;
+$yellow-color: $yellow-shade-4;
+$blue-color: $blue-shade-4;
+$shadow-color: rgba(163, 206, 196, 0.25);
+
 html, body {
   box-sizing: border-box;
   padding: 0;
@@ -52,35 +75,15 @@ html, body {
 body {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(10deg, var(--darker-color) 0%, var(--blue-color) 100%);
-  color: var(--blue-shade-1);
+  background: linear-gradient(10deg, $darker-color 0%, $blue-color 100%);
+  color: $blue-shade-1;
 }
 
 a {
   text-decoration: none;
-  color: var(--white-color);
+  color: $white-color;
 }
 
 h1, h2, h3 {
   font-family: Mahoda, sans-serif, 'Arial Black';
-}
-
-:root {
-  --black-color: #121212;
-  --white-color: #FFF4F4;
-  --dark-color: #022932;
-  --darker-color: #021c23;
-  --yellow-color: var(--yellow-shade-4);
-  --blue-color: var(--blue-shade-4);
-  --shadow-color: rgba(163, 206, 196, 0.25);
-
-  --blue-shade-1: #cee5dd;
-  --blue-shade-2: #a3cec4;
-  --blue-shade-3: #55afb3;
-  --blue-shade-4: #419fa5;
-
-  --yellow-shade-1: #f0cb69;
-  --yellow-shade-2: #ecb665;
-  --yellow-shade-3: #e58c5c;
-  --yellow-shade-4: #dc5a52;
 }

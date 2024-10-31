@@ -6,10 +6,6 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   disabled: false,
 })
-
-const emits = defineEmits<{
-  click: []
-}>()
 </script>
 
 <template>
@@ -19,15 +15,17 @@ const emits = defineEmits<{
 </template>
 
 <style scoped lang="scss">
+@import '~/assets/styles/global';
+
 .btn {
-  background: linear-gradient(-10deg, var(--blue-shade-4) 0%, var(--blue-shade-3) 110%);
+  background: linear-gradient(-10deg, $blue-shade-4 0%, $blue-shade-3 110%);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.85rem 2.5rem;
   border: none;
-  box-shadow: inset 0 0 3px 0.25px var(--shadow-color), 0 1px 3px 0.25px var(--shadow-color);
+  box-shadow: inset 0 0 3px 0.25px $shadow-color, 0 1px 3px 0.25px $shadow-color;
   border-radius: 3px;
   cursor: pointer;
   font-family: "Neo Extra", sans-serif;
@@ -38,7 +36,7 @@ const emits = defineEmits<{
   gap: 0.3rem;
 
   &:hover {
-    background: linear-gradient(-10deg, var(--blue-shade-4) 0%, var(--blue-shade-2) 110%);
+    background: linear-gradient(-10deg, $blue-shade-4 0%, $blue-shade-2 110%);
     box-shadow: none;
     transform: translateY(-3px) skew(-10deg);
     transition: all 0.25s;
@@ -46,14 +44,14 @@ const emits = defineEmits<{
 }
 
 .btn-locked {
-  background: linear-gradient(-10deg, var(--blue-shade-4) 0%, var(--blue-shade-3) 110%);
+  background: linear-gradient(-10deg, $blue-shade-4 0%, $blue-shade-3 110%);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.85rem 2.5rem;
   border: none;
-  box-shadow: inset 0 0 3px 0.25px var(--shadow-color), 0 1px 3px 0.25px var(--shadow-color);
+  box-shadow: inset 0 0 3px 0.25px $shadow-color, 0 1px 3px 0.25px $shadow-color;
   border-radius: 3px;
   font-family: "Neo Extra", sans-serif;
   font-size: 1rem;

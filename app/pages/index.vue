@@ -4,7 +4,7 @@
     <div class="homepage">
       <div class="left">
         <div class="home-title">Bienvenue !</div>
-        <div class="home-subtitle">PANOGUESSR est un jeu <span style="text-decoration: underline 5px solid var(--blue-shade-1); text-underline-offset: 8px">collaboratif</span> et <span style="text-decoration: underline 5px solid var(--blue-shade-1); text-underline-offset: 8px;">open-source</span> qui teste vos connaissances en géographie.</div>
+        <div class="home-subtitle">PANOGUESSR est un jeu <span class="blue">collaboratif</span> et <span class="blue">open-source</span> qui teste vos connaissances en géographie.</div>
         <div class="buttons">
           <NuxtLink href="/game"><AppButton>Partie solo</AppButton></NuxtLink>
           <AppButton disabled>Multijoueur <Icon name="tabler:lock"/></AppButton>
@@ -19,6 +19,13 @@
 </template>
 
 <style scoped lang="scss">
+@import '~/assets/styles/global';
+
+.blue {
+  text-decoration: underline 5px solid $blue-shade-1;
+  text-underline-offset: 8px
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -49,7 +56,7 @@
       .home-title {
         font-family: "Neo Extra", sans-serif;
         font-size: 4rem;
-        color: var(--white-color);
+        color: $white-color;
       }
 
       .home-subtitle {
@@ -58,7 +65,7 @@
         text-align: justify;
         line-height: 2.5rem;
         max-width: 85%;
-        color: var(--white-color);
+        color: $white-color;
       }
 
       .buttons {

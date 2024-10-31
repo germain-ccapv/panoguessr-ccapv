@@ -41,7 +41,9 @@ function resetMapSize() {
 
 <template>
   <div class="map-wrapper" :class="{ 'bigger': isMapBigger }">
-    <button v-if="canValidatePosition" class="validate-btn" @click="validatePosition">Valider</button>
+    <Transition name="fade" mode="out-in">
+      <AppButton v-if="canValidatePosition" class="validate-btn" @click="validatePosition">Valider</AppButton>
+    </Transition>
     <LMap
         ref="map"
         class="map"
@@ -81,7 +83,6 @@ function resetMapSize() {
   }
 
   .validate-btn {
-    height: 30px;
     position: absolute;
     top: 10px;
     right: 10px;
