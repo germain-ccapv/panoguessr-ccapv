@@ -27,5 +27,11 @@ export default defineNuxtConfig({
 
     devtools: {
         enabled: false
+    },
+    nitro: {
+        preset: 'node-server',
+        externals: {
+            inline: ['vue', 'vue/server-renderer']
+        }
     }
 })
