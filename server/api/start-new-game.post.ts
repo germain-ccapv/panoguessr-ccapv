@@ -1,13 +1,8 @@
-import type { Feature } from 'geojson';
-
-import { promises as fs } from 'fs';
-import path from 'path';
+import franceGeoJSON from '@/assets/data/geo/france.json'
 
 import { getRandomPointInPolygon } from '../utils/geo';
 import { GeoBoundingBox, GeoPoint } from '~~/types/geo';
 
-
-let franceGeoJSON: Feature | null = null;
 type PanoramaxAPIResponse = {
   features: {
     id: string;
@@ -15,9 +10,8 @@ type PanoramaxAPIResponse = {
   }[];
 }
 
-async function loadGeoJSON(filePath: string): Promise<Feature> {
-  const geojsonData = await fs.readFile(filePath, 'utf8');
-  return JSON.parse(geojsonData) as Feature;
+type NewGameResponse = {
+  locationId: string;
 }
 
 async function queryPanoramaxAPI(point: GeoPoint): Promise<PanoramaxAPIResponse> {
@@ -39,11 +33,7 @@ async function queryPanoramaxAPI(point: GeoPoint): Promise<PanoramaxAPIResponse>
   return await response.json();
 }
 
-export default defineEventHandler(async () => {
-  if (franceGeoJSON === null) {
-    franceGeoJSON = await loadGeoJSON(path.join(process.cwd(), 'static', 'data', 'geo', 'france.geojson'));
-  }
-
+export default defineEventHandler(async (): Promise<NewGameResponse> => {
   if (franceGeoJSON.geometry.type !== 'MultiPolygon' || !franceGeoJSON.geometry.coordinates) {
     throw new Error('Invalid GeoJSON data');
   }
