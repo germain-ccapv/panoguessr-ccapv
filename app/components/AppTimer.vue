@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue';
+import {Howl} from "howler";
 
 interface Props {
   start: number,
 }
 
+const clockTickingSound = useState<Howl>('clock-ticking-sound');
+
 const props = withDefaults(defineProps<Props>(), {
   start: 10,
 });
 
-const timer = ref(props.start);
+const timer = ref<number>(props.start);
 const interval = ref<NodeJS.Timeout | null>(null);
 
 const formattedTime = computed(() => {
@@ -25,13 +28,37 @@ const startCountdown = () => {
   interval.value = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
+
+      if (timer.value == 10) startTickSound();
+      if (timer.value == 1) stopTickSound();
     } else {
       clearInterval(interval.value!);
     }
   }, 1000);
 };
 
+function startTickSound() {
+  if (clockTickingSound.value) {
+    clockTickingSound.value.stop();
+    clockTickingSound.value.play();
+    clockTickingSound.value.fade(0, 0.8, 1000);
+  }
+}
+
+function stopTickSound() {
+  if (clockTickingSound.value) {
+    clockTickingSound.value.fade(0.8, 0, 2000);
+  }
+}
+
 onMounted(() => {
+  if (!clockTickingSound.value) {
+    clockTickingSound.value = new Howl({
+      src: '/sounds/ticking.wav',
+      volume: 0.8,
+    });
+  }
+
   startCountdown();
 });
 

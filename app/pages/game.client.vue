@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import {Howl} from 'howler';
 import type {GeoPoint} from "~~/types/geo";
 
-const { data } = useFetch("/api/start-new-game", {
+const {data} = useFetch("/api/start-new-game", {
   method: 'POST'
 });
+
+const musicPlaying = useState<Howl>('music-playing');
+const clockTickingSound = useState<Howl>('clock-ticking-sound');
 
 const pictureId = ref<string | null>(null);
 const router = useRouter();
@@ -22,12 +26,29 @@ async function onValidate(position: GeoPoint) {
     }
   });
 
+  if (clockTickingSound.value) {
+    clockTickingSound.value.fade(0.8, 0, 500);
+    clockTickingSound.value = null;
+  }
+
   positionStore.setStartPosition(resp.originPoint.lat, resp.originPoint.lng);
   positionStore.setEndPosition(position.lat, position.lng);
   positionStore.setDistance(resp.distance_meters);
 
   await router.push('/result');
 }
+
+onMounted(() => {
+  if (!musicPlaying.value) {
+    musicPlaying.value = new Howl({
+      src: '/sounds/music.mp3',
+      volume: 0.3,
+      loop: true
+    });
+
+    musicPlaying.value.play();
+  }
+});
 </script>
 
 <template>
@@ -35,7 +56,7 @@ async function onValidate(position: GeoPoint) {
     <div v-if="!pictureId" class="loading">Chargement...</div>
     <template v-else>
       <div class="countdown">
-        <AppTimer :start="15" />
+        <AppTimer :start="20"/>
       </div>
       <MapViewer :picture-id="pictureId"/>
       <MapSelect @validate="onValidate"/>
