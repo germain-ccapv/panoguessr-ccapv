@@ -6,7 +6,8 @@ type EndGameRequest = {
 }
 
 type EndGameResponse = {
-  distance_meters: number
+  distance_meters: number;
+  originPoint: GeoPoint;
 }
 
 function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
@@ -83,7 +84,7 @@ export default defineEventHandler(async (event): Promise<EndGameResponse> => {
 
     const distance = haversineDistance(originPoint, body.guessPosition);
 
-    return { distance_meters: Math.round(distance) };
+    return { distance_meters: Math.round(distance), originPoint: originPoint };
   } catch (error) {
     throw createError({
       statusCode: 500,
