@@ -22,7 +22,7 @@ async function onValidate(position: GeoPoint) {
     }
   });
 
-  positionStore.setStartPosition(10, 32);
+  positionStore.setStartPosition(resp.originPoint.lat, resp.originPoint.lng);
   positionStore.setEndPosition(position.lat, position.lng);
   positionStore.setDistance(resp.distance_meters);
 
