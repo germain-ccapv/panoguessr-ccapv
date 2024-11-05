@@ -7,7 +7,8 @@ export default defineNuxtConfig({
 
     modules: [
         '@nuxtjs/leaflet',
-        '@nuxt/icon'
+        '@nuxt/icon',
+        '@pinia/nuxt'
     ],
 
     css: [

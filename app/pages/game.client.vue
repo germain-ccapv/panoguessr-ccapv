@@ -6,6 +6,8 @@ const { data } = useFetch("/api/start-new-game", {
 });
 
 const pictureId = ref<string | null>(null);
+const router = useRouter();
+const positionStore = usePositionStore();
 
 watch(data, () => {
   pictureId.value = data.value.locationId
@@ -20,7 +22,11 @@ async function onValidate(position: GeoPoint) {
     }
   });
 
-  alert("Distance : " + resp.distance_meters);
+  positionStore.setStartPosition(resp.originPoint.lat, resp.originPoint.lng);
+  positionStore.setEndPosition(position.lat, position.lng);
+  positionStore.setDistance(resp.distance_meters);
+
+  await router.push('/result');
 }
 </script>
 
@@ -54,5 +60,3 @@ async function onValidate(position: GeoPoint) {
   margin: 1rem;
 }
 </style>
-<script setup lang="ts">
-</script>
