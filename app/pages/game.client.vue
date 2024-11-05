@@ -27,7 +27,7 @@ async function onValidate(position: GeoPoint) {
   });
 
   if (clockTickingSound.value) {
-    clockTickingSound.value.fade(0.8, 0, 500);
+    clockTickingSound.value.fade(0.2, 0, 500);
     clockTickingSound.value = null;
   }
 
@@ -42,7 +42,7 @@ onMounted(() => {
   if (!musicPlaying.value) {
     musicPlaying.value = new Howl({
       src: '/sounds/music.mp3',
-      volume: 0.3,
+      volume: 0.05,
       loop: true
     });
 
@@ -56,7 +56,7 @@ onMounted(() => {
     <div v-if="!pictureId" class="loading">Chargement...</div>
     <template v-else>
       <div class="countdown">
-        <AppTimer :start="20"/>
+        <AppTimer :start="60"/>
       </div>
       <MapViewer :picture-id="pictureId"/>
       <MapSelect @validate="onValidate"/>

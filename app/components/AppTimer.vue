@@ -41,13 +41,13 @@ function startTickSound() {
   if (clockTickingSound.value) {
     clockTickingSound.value.stop();
     clockTickingSound.value.play();
-    clockTickingSound.value.fade(0, 0.8, 1000);
+    clockTickingSound.value.fade(0, 0.2, 1000);
   }
 }
 
 function stopTickSound() {
   if (clockTickingSound.value) {
-    clockTickingSound.value.fade(0.8, 0, 2000);
+    clockTickingSound.value.fade(0.2, 0, 2000);
   }
 }
 
@@ -55,7 +55,7 @@ onMounted(() => {
   if (!clockTickingSound.value) {
     clockTickingSound.value = new Howl({
       src: '/sounds/ticking.wav',
-      volume: 0.8,
+      volume: 0.2,
     });
   }
 
