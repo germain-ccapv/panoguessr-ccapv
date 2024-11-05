@@ -1,3 +1,4 @@
+// Variables
 $blue-shade-1: #cee5dd;
 $blue-shade-2: #a3cec4;
 $blue-shade-3: #55afb3;
@@ -21,15 +22,11 @@ $yellow-color: $yellow-shade-4;
 $blue-color: $blue-shade-4;
 $shadow-color: rgba(163, 206, 196, 0.25);
 
-html, body {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
 
+// Fonts
 @font-face {
   font-family: 'Mahoda';
-  src: url('../../../public/fonts/Mahoda.otf') format('opentype');
+  src: url('@/assets/fonts/Mahoda.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -37,7 +34,7 @@ html, body {
 
 @font-face {
   font-family: 'Neo Regular';
-  src: url('../../../public/fonts/NeometricAlt-Regular.ttf') format('truetype');
+  src: url('@/assets/fonts/NeometricAlt-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -45,7 +42,7 @@ html, body {
 
 @font-face {
   font-family: 'Neo Medium';
-  src: url('../../../public/fonts/NeometricAlt-Medium.ttf') format('truetype');
+  src: url('@/assets/fonts/NeometricAlt-Medium.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -53,7 +50,7 @@ html, body {
 
 @font-face {
   font-family: 'Neo Bold';
-  src: url('../../../public/fonts/NeometricAlt-Bold.ttf') format('truetype');
+  src: url('@/assets/fonts/NeometricAlt-Bold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -61,10 +58,17 @@ html, body {
 
 @font-face {
   font-family: 'Neo Extra';
-  src: url('../../../public/fonts/NeometricAlt-ExtraBold.ttf') format('truetype');
+  src: url('@/assets/fonts/NeometricAlt-ExtraBold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+// Main
+html, body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 * {

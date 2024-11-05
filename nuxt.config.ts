@@ -15,6 +15,16 @@ export default defineNuxtConfig({
         '@panoramax/web-viewer/build/index.css'
     ],
 
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    api: 'modern'
+                }
+            }
+        }
+    },
+
     devtools: {
         enabled: false
     }
