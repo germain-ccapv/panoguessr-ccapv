@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {Howl} from 'howler';
 import type {GeoPoint} from "~~/types/geo";
+import {useRoundStore} from "~/stores/round";
 
 const {data} = useFetch("/api/start-new-game", {
   method: 'POST'
@@ -12,9 +13,12 @@ const clockTickingSound = useState<Howl>('clock-ticking-sound');
 const pictureId = ref<string | null>(null);
 const router = useRouter();
 const positionStore = usePositionStore();
+const roundStore = useRoundStore();
 
 watch(data, () => {
-  pictureId.value = data.value.locationId
+  setTimeout(() => {
+    pictureId.value = data.value.locationId
+  }, 4000);
 })
 
 async function onValidate(position: GeoPoint) {
@@ -53,7 +57,10 @@ onMounted(() => {
 
 <template>
   <div class="page">
-    <div v-if="!pictureId" class="loading">Chargement...</div>
+    <div v-if="!pictureId" class="loading">
+      <AppButton>Round {{roundStore.round}} / 5</AppButton>
+      <div class="title">Chargement...</div>
+    </div>
     <template v-else>
       <div class="countdown">
         <AppTimer :start="60"/>
@@ -79,5 +86,18 @@ onMounted(() => {
   top: 1rem;
   right: 1rem;
   margin: 1rem;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  .title {
+    font-family: "Mahoda", sans-serif;
+    font-size: 1.25rem;
+  }
 }
 </style>

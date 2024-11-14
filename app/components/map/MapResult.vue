@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LMap, LTileLayer, LMarker, LPolyline } from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LMarker, LPolyline, LIcon } from "@vue-leaflet/vue-leaflet";
 import { ref } from "vue";
 import type {GeoPoint} from "~~/types/geo";
 
@@ -32,8 +32,13 @@ const mapCenter = ref<GeoPoint>({
           layer-type="base"
           name="OpenStreetMap"
       />
-      <LMarker :lat-lng="[props.startPosition.lat, props.startPosition.lng]" />
-      <LMarker :lat-lng="[props.endPosition.lat, props.endPosition.lng]" />
+      <LMarker :lat-lng="[props.startPosition.lat, props.startPosition.lng]">
+        <LIcon iconUrl="flag.png"
+               :icon-size="[32, 32]"
+               :icon-anchor="[16, 32]"
+        />
+      </LMarker>
+      <LMarker :lat-lng="[props.endPosition.lat, props.endPosition.lng]"/>
 
       <LPolyline :lat-lngs="[
         [props.startPosition.lat, props.startPosition.lng],
