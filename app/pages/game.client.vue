@@ -18,7 +18,7 @@ const roundStore = useRoundStore();
 watch(data, () => {
   setTimeout(() => {
     pictureId.value = data.value.locationId
-  }, 4000);
+  }, 3000);
 })
 
 async function onValidate(position: GeoPoint) {
@@ -63,6 +63,7 @@ onMounted(() => {
     </div>
     <template v-else>
       <div class="countdown">
+        <AppButton>Round {{roundStore.round}} / 5</AppButton>
         <AppTimer :start="60"/>
       </div>
       <MapViewer :picture-id="pictureId"/>
@@ -82,10 +83,14 @@ onMounted(() => {
 
 .countdown {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
   z-index: 1000;
   top: 1rem;
   right: 1rem;
   margin: 1rem;
+  gap: 1rem;
 }
 
 .loading {

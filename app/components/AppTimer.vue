@@ -7,7 +7,7 @@ interface Props {
 }
 
 const clockTickingSound = useState<Howl>('clock-ticking-sound');
-
+const router = useRouter();
 const props = withDefaults(defineProps<Props>(), {
   start: 10,
 });
@@ -25,7 +25,7 @@ const startCountdown = () => {
   if (interval.value) clearInterval(interval.value);
   timer.value = props.start;
 
-  interval.value = setInterval(() => {
+  interval.value = setInterval(async () => {
     if (timer.value > 0) {
       timer.value--;
 
@@ -33,6 +33,7 @@ const startCountdown = () => {
       if (timer.value == 1) stopTickSound();
     } else {
       clearInterval(interval.value!);
+      await router.push('/result');
     }
   }, 1000);
 };
@@ -58,8 +59,13 @@ onMounted(() => {
       volume: 0.2,
     });
   }
-
+  console.log('mounted');
   startCountdown();
+});
+
+onUnmounted(() => {
+  console.log('unmounted');
+  if (interval.value) clearInterval(interval.value);
 });
 
 watch(() => props.start, startCountdown);
