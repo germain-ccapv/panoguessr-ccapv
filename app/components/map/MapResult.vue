@@ -10,10 +10,13 @@ const props = defineProps<{
 
 // Set the map reference and initial zoom/center settings
 const map = ref<LMap>(null);
-const defaultZoom = 5;
-const mapCenter = ref<GeoPoint>({
+const defaultZoom = props.endPosition.lng !== 0 && props.endPosition.lat !== 0 ? 5 : 7;
+const mapCenter = ref<GeoPoint>(props.endPosition.lng !== 0 && props.endPosition.lat !== 0 ? {
   lat: (props.startPosition.lat + props.endPosition.lat) / 2,
   lng: (props.startPosition.lng + props.endPosition.lng) / 2,
+} : {
+  lat: props.startPosition.lat,
+  lng: props.startPosition.lng,
 });
 </script>
 
@@ -38,12 +41,11 @@ const mapCenter = ref<GeoPoint>({
                :icon-anchor="[16, 32]"
         />
       </LMarker>
-      <LMarker :lat-lng="[props.endPosition.lat, props.endPosition.lng]"/>
-
-      <LPolyline :lat-lngs="[
+      <LMarker v-if="props.endPosition.lng !== 0 && props.endPosition.lat !== 0" :lat-lng="[props.endPosition.lat, props.endPosition.lng]"/>
+      <LPolyline v-if="props.endPosition.lng !== 0 && props.endPosition.lat !== 0" :lat-lngs="[
         [props.startPosition.lat, props.startPosition.lng],
         [props.endPosition.lat, props.endPosition.lng]
-      ]" />
+      ]"/>
     </LMap>
   </div>
 </template>

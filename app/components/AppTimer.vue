@@ -12,6 +12,10 @@ const props = withDefaults(defineProps<Props>(), {
   start: 10,
 });
 
+const emits = defineEmits<{
+  timeout: [];
+}>();
+
 const timer = ref<number>(props.start);
 const interval = ref<NodeJS.Timeout | null>(null);
 
@@ -33,7 +37,7 @@ const startCountdown = () => {
       if (timer.value == 1) stopTickSound();
     } else {
       clearInterval(interval.value!);
-      await router.push('/result');
+      emits('timeout');
     }
   }, 1000);
 };

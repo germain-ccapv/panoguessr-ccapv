@@ -10,8 +10,8 @@ const roundStore = useRoundStore();
 const startPosition = computed(() => positionStore.startPosition);
 const endPosition = computed(() => positionStore.endPosition);
 const distanceMeters = computed(() => positionStore.distance);
-
-const points = Math.round(5000 * Math.pow(0.9999925, distanceMeters.value));
+const noGuess = computed(() => endPosition.value.lat === 0 && endPosition.value.lng === 0);
+const points = noGuess.value ? 0 : Math.round(5000 * Math.pow(0.9999925, distanceMeters.value));
 roundStore.addScore(points);
 
 function play() {
@@ -24,6 +24,14 @@ function play() {
   }
 }
 
+function formatDistance(distance: number): string {
+  if (distance >= 1000) {
+    return `${(distance / 1000).toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km`;
+  }
+  return `${distance.toLocaleString('fr-FR')} m`;
+}
+const formattedDistance = computed(() => formatDistance(distanceMeters.value));
+
 </script>
 
 <template>
@@ -33,7 +41,8 @@ function play() {
         <div class="result_title">Résultat : {{ points }} points. </div>
         <div class="total_title">(Total : {{ roundStore.score }} points)</div>
       </div>
-      <h4 class="distance">Distance : {{ distanceMeters }} mètres</h4>
+      <h4 v-if="!noGuess" class="distance">Distance : {{ formattedDistance }}</h4>
+      <h4 v-if="noGuess" class="distance">Temps écoulé !</h4>
       <MapResult :start-position="startPosition" :end-position="endPosition" />
       <AppButton @click="play">{{ roundStore.round === 5 ? 'Terminer' : 'Suivant' }}</AppButton>
     </div>

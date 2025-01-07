@@ -42,6 +42,27 @@ async function onValidate(position: GeoPoint) {
   await router.push('/result');
 }
 
+async function timeOutValidation() {
+  const resp = await $fetch(`/api/end-game`, {
+    method: 'POST',
+    body: {
+      originPicId: pictureId.value,
+      guessPosition: {lat: 0, lng: 0},
+    }
+  });
+
+  if (clockTickingSound.value) {
+    clockTickingSound.value.fade(0.2, 0, 500);
+    clockTickingSound.value = null;
+  }
+
+  positionStore.setStartPosition(resp.originPoint.lat, resp.originPoint.lng);
+  positionStore.setEndPosition(0, 0);
+  positionStore.setDistance(resp.distance_meters);
+
+  await router.push('/result');
+}
+
 onMounted(() => {
   if (!musicPlaying.value) {
     musicPlaying.value = new Howl({
@@ -64,7 +85,7 @@ onMounted(() => {
     <template v-else>
       <div class="countdown">
         <AppButton>Round {{roundStore.round}} / 5</AppButton>
-        <AppTimer :start="60"/>
+        <AppTimer :start="60" @timeout="timeOutValidation"/>
       </div>
       <MapViewer :picture-id="pictureId"/>
       <MapSelect @validate="onValidate"/>

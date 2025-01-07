@@ -18,12 +18,15 @@ const canValidatePosition = computed<boolean>(() => position.value.lat !== 0 && 
 
 function onMapClick(event: any) {
   position.value = event.latlng;
-  isMapBigger.value = true;
-  resetMapSize();
 }
 
 function onMapOut() {
   isMapBigger.value = false;
+}
+
+function onMapIn() {
+  isMapBigger.value = true;
+  resetMapSize();
 }
 
 function validatePosition() {
@@ -42,7 +45,7 @@ function resetMapSize() {
 <template>
   <div class="map-wrapper" :class="{ 'bigger': isMapBigger }">
     <Transition name="fade" mode="out-in">
-      <AppButton v-if="canValidatePosition" class="validate-btn" @click="validatePosition">Valider</AppButton>
+      <AppButton v-if="canValidatePosition" class="validate-btn" @click="validatePosition" @mouseover="onMapIn">Valider</AppButton>
     </Transition>
     <LMap
         ref="map"
@@ -52,6 +55,7 @@ function resetMapSize() {
         :use-global-leaflet="false"
         @click="onMapClick"
         @mouseout="onMapOut"
+        @mouseover="onMapIn"
     >
       <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
