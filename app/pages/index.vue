@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <AppHeader/>
+    <AppHeader :music="musicStore.isPlaying"/>
     <div class="homepage">
       <div class="left">
         <div class="home-title">Bienvenue !</div>
@@ -8,7 +8,7 @@
         <div class="buttons">
           <NuxtLink href="/game"><AppButton>Partie solo</AppButton></NuxtLink>
           <AppButton disabled>Multijoueur <Icon name="tabler:lock"/></AppButton>
-          <AppButton disabled>Partie classée <Icon name="tabler:lock"/></AppButton>
+          <NuxtLink href="/credits"><AppButton>Crédits</AppButton></NuxtLink>
         </div>
       </div>
       <div class="right">
@@ -115,4 +115,5 @@
 </style>
 
 <script setup lang="ts">
+const musicStore = useMusiqueStore();
 </script>

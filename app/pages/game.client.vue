@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import {Howl} from 'howler';
 import type {GeoPoint} from "~~/types/geo";
-import {useRoundStore} from "~/stores/round";
 
 const {data} = useFetch("/api/start-new-game", {
   method: 'POST'
 });
 
-const musicPlaying = useState<Howl>('music-playing');
 const clockTickingSound = useState<Howl>('clock-ticking-sound');
 
 const pictureId = ref<string | null>(null);
 const router = useRouter();
 const positionStore = usePositionStore();
 const roundStore = useRoundStore();
+const musicStore = useMusiqueStore();
 
 watch(data, () => {
   setTimeout(() => {
@@ -64,16 +63,14 @@ async function timeOutValidation() {
 }
 
 onMounted(() => {
-  if (!musicPlaying.value) {
-    musicPlaying.value = new Howl({
-      src: '/sounds/music.mp3',
-      volume: 0.05,
-      loop: true
-    });
-
-    musicPlaying.value.play();
+  if(musicStore.isPlaying) {
+    musicStore.play();
   }
 });
+
+function updateMusic() {
+  musicStore.toggleMusic();
+}
 </script>
 
 <template>
@@ -84,7 +81,13 @@ onMounted(() => {
     </div>
     <template v-else>
       <div class="countdown">
-        <AppButton>Round {{roundStore.round}} / 5</AppButton>
+        <div class="row-top">
+          <AppButton>Round {{roundStore.round}} / 5</AppButton>
+          <div class="vol_button">
+            <Icon v-if="musicStore.isPlaying" @click="updateMusic()" name="tabler:volume"/>
+            <Icon v-else @click="updateMusic()" name="tabler:volume-off"/>
+          </div>
+        </div>
         <AppTimer :start="60" @timeout="timeOutValidation"/>
       </div>
       <MapViewer :picture-id="pictureId"/>
@@ -94,6 +97,10 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+
+@import '~/assets/styles/global';
+
+
 .page {
   display: flex;
   justify-content: center;
@@ -112,6 +119,25 @@ onMounted(() => {
   right: 1rem;
   margin: 1rem;
   gap: 1rem;
+
+  .row-top {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
+    .vol_button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      background-color: $dark-color;
+      border: 2px solid $blue-shade-2;
+      border-radius: 100px;
+      cursor: pointer;
+    }
+  }
 }
 
 .loading {

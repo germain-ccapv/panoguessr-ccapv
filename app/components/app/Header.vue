@@ -1,11 +1,13 @@
 <script setup lang="ts">
-
+const props = defineProps<{
+  music: boolean,
+}>()
 </script>
 
 <template>
-  <header class="header">
+  <header class="header" music>
     <div class="title">PANOGUESSR</div>
-    <UserProfile/>
+    <UserProfile :music="music"/>
   </header>
 </template>
 
