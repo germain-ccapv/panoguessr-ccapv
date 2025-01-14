@@ -22,7 +22,7 @@ importers:
         version: 0.7.0(magicast@0.3.5)(rollup@4.24.0)(vue@3.5.11)
       '@vue-leaflet/vue-leaflet':
         specifier: ^0.10.1
-        version: 0.10.1(@types/leaflet@1.9.13)(leaflet@1.9.4)
+        version: 0.10.1(@types/leaflet@1.9.16)(leaflet@1.9.4)
       geojson:
         specifier: ^0.5.0
         version: 0.5.0
@@ -48,6 +48,9 @@ importers:
       '@types/howler':
         specifier: ^2.2.12
         version: 2.2.12
+      '@types/leaflet':
+        specifier: ^1.9.16
+        version: 1.9.16
       sass:
         specifier: ^1.79.4
         version: 1.79.4
@@ -1117,8 +1120,8 @@ packages:
   '@types/http-proxy@1.17.15':
     resolution: {integrity: sha512-25g5atgiVNTIv0LBDTg1H74Hvayx0ajtJPLLcYE3whFv75J0pWNtOBzaXJQgDTmrX1bx5U9YC2w/n65BN1HwRQ==}
 
-  '@types/leaflet@1.9.13':
-    resolution: {integrity: sha512-wwLL4VKKwYlLmhMQRc/8HT5/8HgkzZyETG0hG3nbsSiHKSdxBWZnHqEkRIOOtpyUks3gbc81dk9WgQMC6bicDw==}
+  '@types/leaflet@1.9.16':
+    resolution: {integrity: sha512-wzZoyySUxkgMZ0ihJ7IaUIblG8Rdc8AbbZKLneyn+QjYsj5q1QU7TEKYqwTr10BGSzY5LI7tJk9Ifo+mEjdFRw==}
 
   '@types/mapbox__point-geometry@0.1.4':
     resolution: {integrity: sha512-mUWlSxAmYLfwnRBmgYV86tgYmMIICX4kza8YnE/eIlywGe2XoOxlpVnXWwir92xRLjwyarqwpu2EJKD2pk0IUA==}
@@ -4854,8 +4857,8 @@ snapshots:
 
   '@nuxtjs/leaflet@1.2.3':
     dependencies:
-      '@types/leaflet': 1.9.13
-      '@vue-leaflet/vue-leaflet': 0.10.1(@types/leaflet@1.9.13)(leaflet@1.9.4)
+      '@types/leaflet': 1.9.16
+      '@vue-leaflet/vue-leaflet': 0.10.1(@types/leaflet@1.9.16)(leaflet@1.9.4)
       leaflet: 1.9.4
     transitivePeerDependencies:
       - typescript
@@ -5118,7 +5121,7 @@ snapshots:
     dependencies:
       '@types/node': 22.7.5
 
-  '@types/leaflet@1.9.13':
+  '@types/leaflet@1.9.16':
     dependencies:
       '@types/geojson': 7946.0.14
 
@@ -5217,12 +5220,12 @@ snapshots:
       vite: 5.4.8(@types/node@22.7.5)(sass@1.79.4)(terser@5.34.1)
       vue: 3.5.11
 
-  '@vue-leaflet/vue-leaflet@0.10.1(@types/leaflet@1.9.13)(leaflet@1.9.4)':
+  '@vue-leaflet/vue-leaflet@0.10.1(@types/leaflet@1.9.16)(leaflet@1.9.4)':
     dependencies:
       leaflet: 1.9.4
       vue: 3.5.12
     optionalDependencies:
-      '@types/leaflet': 1.9.13
+      '@types/leaflet': 1.9.16
     transitivePeerDependencies:
       - typescript
 
@@ -7505,7 +7508,7 @@ snapshots:
 
   pmtiles@3.2.1:
     dependencies:
-      '@types/leaflet': 1.9.13
+      '@types/leaflet': 1.9.16
       fflate: 0.8.2
 
   postcss-calc@10.0.2(postcss@8.4.47):
