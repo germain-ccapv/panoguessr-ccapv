@@ -5,3 +5,8 @@
 ![Logo PanoGuessr](<Logo PanoGuessr.png>)
 
 "Where is this [Panoramax](https://gitlab.com/groups/panoramax) picture located again?"
+
+
+## License
+
+This project is licensed under the MIT license. See the [LICENSE](./LICENSE) file for details.
