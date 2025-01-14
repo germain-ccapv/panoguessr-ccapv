@@ -15,6 +15,10 @@
         <img src="~/assets/world.svg" alt="world" />
       </div>
     </div>
+
+    <div class="footer">
+      <a href="/credits">License et crédits</a>
+    </div>
   </div>
 </template>
 
@@ -92,6 +96,11 @@
       }
     };
   }
+}
+
+.footer {
+  font-family: "Neo Regular", sans-serif;
+  font-size: 1rem;
 }
 
 @keyframes bounce {
