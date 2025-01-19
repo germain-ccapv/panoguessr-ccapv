@@ -28,6 +28,7 @@ async function queryPanoramaxAPI(point: GeoPoint): Promise<PanoramaxAPIResponse>
         point.lng + 2,
         point.lat + 2
       ],
+      filter: "field_of_view=360"
     })
   })
   return await response.json();

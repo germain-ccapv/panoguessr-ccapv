@@ -12,7 +12,7 @@
       <div class="home-title">Crédits</div>
       <div class="credit_content">
         <div class="subtitle">Dépôt Gitlab</div>
-        <div class="content">Le dépôt Gitlab est à l&amp;adresse suivante: <a href="https://gitlab.com/panoguessr/panoguessr.com">https://gitlab.com/panoguessr/panoguessr.com</a></div>
+        <div class="content">Le dépôt Gitlab est à l'adresse suivante: <a href="https://gitlab.com/panoguessr/panoguessr.com">https://gitlab.com/panoguessr/panoguessr.com</a></div>
       </div>
       <div class="credit_content">
         <div class="subtitle">Licenses et crédits</div>
@@ -72,8 +72,4 @@
   }
 }
 
-<<<<<<< HEAD
 </style>
-=======
-</style>
->>>>>>> e43f47a (Add licensing page)
