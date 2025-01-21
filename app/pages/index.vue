@@ -15,10 +15,6 @@
         <img src="~/assets/world.svg" alt="world" />
       </div>
     </div>
-
-    <div class="footer">
-      <a href="/credits">License et crédits</a>
-    </div>
   </div>
 </template>
 
@@ -57,10 +53,18 @@
       height: 100%;
       gap: 2rem;
 
+      @media screen and (max-width: 500px) {
+        align-items: center;
+      }
+
       .home-title {
         font-family: "Neo Extra", sans-serif;
         font-size: 4rem;
         color: $white-color;
+
+        @media screen and (max-width: 500px) {
+          font-size: 3rem;
+        }
       }
 
       .home-subtitle {
@@ -79,6 +83,10 @@
         margin-top: 25px;
         align-items: start;
         gap: 2rem;
+
+        @media screen and (max-width: 500px) {
+          align-items: center;
+        }
       }
     }
 
@@ -88,6 +96,10 @@
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
+
+      @media screen and (max-width: 915px) {
+        display: none;
+      }
 
       img {
         transform: scale(0.85);

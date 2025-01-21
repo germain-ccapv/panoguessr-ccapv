@@ -25,6 +25,10 @@ const props = defineProps<{
     font-family: "Mahoda", sans-serif;
     font-size: 2rem;
     color: $white-color;
+
+    @media screen and (max-width: 500px) {
+      font-size: 3rem;
+    }
   }
 
   .header__nav-list {

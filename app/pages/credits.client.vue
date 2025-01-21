@@ -28,6 +28,10 @@
 <style scoped lang="scss">
 @import '~/assets/styles/global';
 
+a {
+  overflow-wrap: anywhere;
+}
+
 .credit_container {
   display: flex;
   flex-direction: column;
@@ -58,6 +62,10 @@
       font-family: "Neo Extra", sans-serif;
       font-size: 4rem;
       color: $white-color;
+
+      @media screen and (max-width: 500px) {
+        font-size: 2rem;
+      }
     }
 
     .credit_content {
@@ -71,12 +79,20 @@
         text-align: justify;
         line-height: 2.5rem;
         max-width: 85%;
+
+        @media screen and (max-width: 500px) {
+          font-size: 1.5rem;
+        }
       }
 
       .content {
         font-family: "Neo Medium", sans-serif;
         font-size: 0.9rem;
         color: $white-color;
+
+        @media screen and (max-width: 500px) {
+          font-size: 0.75rem;
+        }
       }
     }
   }
