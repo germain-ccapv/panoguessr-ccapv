@@ -5,10 +5,9 @@
 <template>
   <div class="credit_container">
     <div class="homepage">
-      <div>
-        <a href="/">< Menu</a>
+      <div class="back_container">
+        <NuxtLink href="/"><AppButton>Menu</AppButton></NuxtLink>
       </div>
-
       <div class="home-title">Crédits</div>
       <div class="credit_content">
         <div class="subtitle">Dépôt Gitlab</div>
@@ -18,12 +17,20 @@
         <div class="subtitle">Licenses et crédits</div>
         <div class="content">Les licenses sont disponibles sur le dépôt, à l'adresse suivante: <a href="https://gitlab.com/panoguessr/panoguessr.com/-/blob/develop/LICENSE">https://gitlab.com/panoguessr/panoguessr.com/-/blob/develop/LICENSE</a></div>
       </div>
+      <div class="credit_content">
+        <div class="subtitle">Musique et images</div>
+        <div class="content">La musique et les images proviennent respectivement de <a href="https://suno.com/">Suno</a> et <a href="https://www.pixeltrue.com/license">Pixel True Studio</a>.<br> L'utilisation de ces contenus est libre de droits dans le cadre d'un usage non-commercial.</div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @import '~/assets/styles/global';
+
+a {
+  overflow-wrap: anywhere;
+}
 
 .credit_container {
   display: flex;
@@ -43,10 +50,22 @@
     height: 100%;
     gap: 2rem;
 
+    .back_container {
+      display: flex;
+      width: 100%;
+      justify-content: start;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .home-title {
       font-family: "Neo Extra", sans-serif;
       font-size: 4rem;
       color: $white-color;
+
+      @media screen and (max-width: 500px) {
+        font-size: 2rem;
+      }
     }
 
     .credit_content {
@@ -56,17 +75,24 @@
 
       .subtitle {
         font-family: "Neo Extra", sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         text-align: justify;
         line-height: 2.5rem;
         max-width: 85%;
+
+        @media screen and (max-width: 500px) {
+          font-size: 1.5rem;
+        }
       }
 
       .content {
         font-family: "Neo Medium", sans-serif;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         color: $white-color;
-        text-align: justify;
+
+        @media screen and (max-width: 500px) {
+          font-size: 0.75rem;
+        }
       }
     }
   }

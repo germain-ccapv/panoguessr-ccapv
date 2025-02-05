@@ -81,9 +81,22 @@ function resetMapSize() {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden;
 
+  @media screen and (max-width: 600px) {
+    height: 20% !important;
+    width: 100% !important;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
+
   &.bigger {
     height: 500px !important;
     width: 800px !important;
+
+    @media screen and (max-width: 600px) {
+      height: 33% !important;
+      width: 100% !important;
+    }
   }
 
   .validate-btn {

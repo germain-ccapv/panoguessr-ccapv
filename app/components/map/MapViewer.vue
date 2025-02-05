@@ -28,6 +28,14 @@ onMounted(() => {
   font-size: initial;
   width: 100%;
   height: 100%;
+
+  @media screen and (max-width: 600px) {
+    height: 80% !important;
+    width: 100% !important;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }
 
 :deep(#gvs-widget-legend) {
