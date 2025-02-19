@@ -38,12 +38,6 @@ Original music made from https://suno.com.
 │  ├─ repository: https://github.com/vuejs/pinia
 │  ├─ publisher: Eduardo San Martin Morote
 │  ├─ email: posva13@gmail.com
-├─ @types/geojson
-│  ├─ licenses: MIT
-│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
-├─ @types/howler
-│  ├─ licenses: MIT
-│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
 ├─ @vue-leaflet/vue-leaflet
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vue-leaflet/vue-leaflet
@@ -61,15 +55,9 @@ Original music made from https://suno.com.
 ├─ leaflet@1.9.4
 │  ├─ licenses: BSD-2-Clause
 │  ├─ repository: https://github.com/Leaflet/Leaflet
-├─ nuxt@3.13.2
+├─ nuxt@3.15.4
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/nuxt/nuxt
-├─ sass@1.79.4
-│  ├─ licenses: MIT
-│  ├─ repository: https://github.com/sass/dart-sass
-│  ├─ publisher: Natalie Weizenbaum
-│  ├─ email: nweiz@google.com
-│  ├─ url: https://github.com/nex3
 ├─ vue-router@4.4.5
 │  ├─ licenses: MIT
 │  ├─ repository: https://github.com/vuejs/router
