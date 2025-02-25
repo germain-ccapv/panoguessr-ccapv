@@ -64,7 +64,7 @@ async function timeOutValidation() {
 
 onMounted(() => {
   if(musicStore.isPlaying) {
-    musicStore.play();
+    musicStore.pause();
   }
 });
 
@@ -97,9 +97,7 @@ function updateMusic() {
 </template>
 
 <style scoped lang="scss">
-
-@import '~/assets/styles/global';
-
+@use '~/assets/styles/global' as *;
 
 .page {
   display: flex;

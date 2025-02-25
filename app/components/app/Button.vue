@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 </template>
 
 <style scoped lang="scss">
-@import '~/assets/styles/global';
+@use '~/assets/styles/global' as *;
 
 .btn {
   background: linear-gradient(-10deg, $blue-shade-4 0%, $blue-shade-3 110%);

@@ -5,18 +5,21 @@ const props = defineProps<{
   pictureId: string;
 }>();
 
-const viewer = ref();
+const viewer = ref<Viewer | null>(null);
+
+watch(() => props.pictureId, (newPictureId) => {
+  if (viewer.value) {
+    viewer.value.select(null, newPictureId, true);
+  }
+});
 
 onMounted(() => {
-  viewer.value = new Viewer("viewer",
-      "https://api.panoramax.xyz/api",
-      {
-        map: false,
-        hash: false,
-        selectedPicture: props.pictureId
-      }
-  );
-})
+  viewer.value = new Viewer("viewer", "https://api.panoramax.xyz/api", {
+    map: false,
+    hash: false,
+    selectedPicture: props.pictureId
+  });
+});
 </script>
 
 <template>

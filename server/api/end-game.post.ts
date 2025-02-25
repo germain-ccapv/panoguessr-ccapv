@@ -10,7 +10,7 @@ type EndGameResponse = {
   originPoint: GeoPoint;
 }
 
-function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
+export function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
   const toRadians = (degree: number) => (degree * Math.PI) / 180;
 
   const R = 6371000; // Earth's radius in meters
@@ -27,7 +27,7 @@ function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
   return R * c;
 }
 
-async function getPicturePosition(pictureId: string): Promise<GeoPoint> {
+export async function getPicturePosition(pictureId: string): Promise<GeoPoint> {
   const response = await fetch(
     `https://api.panoramax.xyz/api/search?ids=${pictureId}`,
     {

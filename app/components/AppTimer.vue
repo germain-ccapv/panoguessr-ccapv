@@ -83,7 +83,7 @@ watch(() => props.start, startCountdown);
 </template>
 
 <style scoped lang="scss">
-@import '~/assets/styles/global';
+@use '~/assets/styles/global' as *;
 
 .timer-container {
   color: white;

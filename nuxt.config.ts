@@ -1,38 +1,46 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    future: {
-        compatibilityVersion: 4
-    },
-    compatibilityDate: '2024-10-10',
+  future: {
+      compatibilityVersion: 4
+  },
 
-    modules: [
-        '@nuxtjs/leaflet',
-        '@nuxt/icon',
-        '@pinia/nuxt'
-    ],
+  modules: [
+      '@nuxtjs/leaflet',
+      '@nuxt/icon',
+      '@pinia/nuxt'
+  ],
 
-    css: [
-        '@/assets/styles/global.scss',
-        '@panoramax/web-viewer/build/index.css'
-    ],
+  css: [
+      '@/assets/styles/global.scss',
+      '@panoramax/web-viewer/build/index.css'
+  ],
 
-    vite: {
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    api: 'modern'
-                }
-            }
-        }
-    },
+  vite: {
+      css: {
+          preprocessorOptions: {
+              scss: {
+                  api: 'modern'
+              }
+          }
+      },
+      server: {
+        allowedHosts: [".ngrok-free.app"]
+      }
+  },
 
-    devtools: {
-        enabled: false
-    },
-    nitro: {
-        preset: 'node-server',
-        externals: {
-            inline: ['vue', 'vue/server-renderer']
-        }
-    }
+  devtools: {
+      enabled: false
+  },
+
+  nitro: {
+      preset: 'node-server',
+      experimental: {
+          websocket: true,
+      },
+      externals: {
+          inline: ['vue', 'vue/server-renderer']
+      }
+  },
+
+  compatibilityDate: '2025-01-21'
 })
