@@ -10,7 +10,7 @@ function updateMusic() {
 
 <template>
   <div class="header_container">
-    <div class="user-profile">
+    <!--<div class="user-profile">
       <div class="user-info">
         <div class="username">{{ userStore.username }}</div>
         <div class="level">LVL {{ userStore.level }}</div>
@@ -20,7 +20,7 @@ function updateMusic() {
           <div class="progress-bar" :style="{ width: userStore.progress + '%' }"></div>
         </div>
       </div>
-    </div>
+    </div>-->
     <div class="vol_button">
       <Icon v-if="musicStore.isPlaying" @click="updateMusic()" name="tabler:volume"/>
       <Icon v-else @click="updateMusic()" name="tabler:volume-off"/>
@@ -29,7 +29,7 @@ function updateMusic() {
 </template>
 
 <style scoped lang="scss">
-@import '~/assets/styles/global';
+@use '~/assets/styles/global' as *;
 
 .header_container {
   display: flex;

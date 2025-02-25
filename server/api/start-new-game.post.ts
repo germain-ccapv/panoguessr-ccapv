@@ -14,7 +14,7 @@ type NewGameResponse = {
   locationId: string;
 }
 
-async function queryPanoramaxAPI(point: GeoPoint): Promise<PanoramaxAPIResponse> {
+export async function queryPanoramaxAPI(point: GeoPoint): Promise<PanoramaxAPIResponse> {
   const response = await fetch('https://api.panoramax.xyz/api/search', {
     method: 'POST',
     headers: {

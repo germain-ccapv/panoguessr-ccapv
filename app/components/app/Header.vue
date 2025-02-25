@@ -12,7 +12,7 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-@import '~/assets/styles/global';
+@use '~/assets/styles/global' as *;
 
 .header {
   display: flex;

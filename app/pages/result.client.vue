@@ -51,7 +51,7 @@ const formattedDistance = computed(() => formatDistance(distanceMeters.value));
 
 <style scoped lang="scss">
 
-@import "~/assets/styles/global.scss";
+@use '~/assets/styles/global' as *;
 
 .page {
   display: flex;
