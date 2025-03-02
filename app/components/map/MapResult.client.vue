@@ -91,7 +91,7 @@ watch(
 
 <style scoped lang="scss">
 .map-result-wrapper {
-  height: 500px;
+  height: 50vh;
   width: 100%;
   border-radius: 10px;
   border: 4px solid white;

@@ -9,15 +9,14 @@ const {data} = useFetch("/api/start-new-game", {
 const clockTickingSound = useState<Howl>('clock-ticking-sound');
 
 const pictureId = ref<string | null>(null);
+const loaderReady = ref<boolean>(false);
 const router = useRouter();
 const positionStore = usePositionStore();
 const roundStore = useRoundStore();
 const musicStore = useMusiqueStore();
 
 watch(data, () => {
-  setTimeout(() => {
-    pictureId.value = data.value.locationId
-  }, 3000);
+  pictureId.value = data.value.locationId;
 })
 
 async function onValidate(position: GeoPoint) {
@@ -80,7 +79,7 @@ function updateMusic() {
       <div class="title">Chargement...</div>
     </div>
     <template v-else>
-      <div class="countdown">
+      <div v-if="loaderReady" class="countdown">
         <div class="row-top">
           <AppButton>Round {{roundStore.round}} / 5</AppButton>
           <div class="vol_button">
@@ -88,9 +87,9 @@ function updateMusic() {
             <Icon v-else @click="updateMusic()" name="tabler:volume-off"/>
           </div>
         </div>
-        <AppTimer :start="60" @timeout="timeOutValidation"/>
+        <AppTimer :start="120" @timeout="timeOutValidation"/>
       </div>
-      <MapViewer :picture-id="pictureId"/>
+      <MapViewer :picture-id="pictureId" @picready="() => loaderReady = true" />
       <MapSelect @validate="onValidate"/>
     </template>
   </div>

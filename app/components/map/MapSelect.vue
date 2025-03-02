@@ -33,13 +33,22 @@ function validatePosition() {
   emits('validate', position.value)
 }
 
+function resetPosition() {
+  position.value = {lat: 0, lng: 0};
+}
+
 function resetMapSize() {
   nextTick(() => {
     setTimeout(() => {
-      map.value.leafletObject.invalidateSize()
+      map?.value.leafletObject.invalidateSize()
     }, 300);
   });
 }
+
+defineExpose({
+  resetPosition
+});
+
 </script>
 
 <template>
@@ -70,8 +79,8 @@ function resetMapSize() {
 
 <style scoped lang="scss">
 .map-wrapper {
-  height: 300px !important;
-  width: 600px !important;
+  height: 35vh !important;
+  width: 35vw !important;
   transition: .3s ease;
   position: fixed;
   bottom: 10px;
@@ -90,8 +99,8 @@ function resetMapSize() {
   }
 
   &.bigger {
-    height: 500px !important;
-    width: 800px !important;
+    height: 70vh !important;
+    width: 50vw !important;
 
     @media screen and (max-width: 600px) {
       height: 33% !important;
@@ -101,7 +110,7 @@ function resetMapSize() {
 
   .validate-btn {
     position: absolute;
-    top: 10px;
+    bottom: 20px;
     right: 10px;
     z-index: 1;
   }

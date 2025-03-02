@@ -63,12 +63,10 @@ onMounted(() => {
       volume: 0.2,
     });
   }
-  console.log('mounted');
   startCountdown();
 });
 
 onUnmounted(() => {
-  console.log('unmounted');
   if (interval.value) clearInterval(interval.value);
 });
 

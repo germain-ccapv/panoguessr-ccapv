@@ -5,6 +5,8 @@ const props = defineProps<{
   pictureId: string;
 }>();
 
+const emit = defineEmits(['picready'])
+
 const viewer = ref<Viewer | null>(null);
 
 watch(() => props.pictureId, (newPictureId) => {
@@ -19,6 +21,8 @@ onMounted(() => {
     hash: false,
     selectedPicture: props.pictureId
   });
+  viewer.value.addEventListener("ready", () => viewer.value.psv.setTransitionDuration(500));
+  viewer.value.addEventListener("psv:picture-loaded", () => emit("picready"));
 });
 </script>
 

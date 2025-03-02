@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTemplateRef } from 'vue';
 import { Howl } from 'howler';
 import {useMultiplayer} from '~/stores/multiplayer';
 import type { GeoPoint } from "~~/types/geo";
@@ -11,11 +12,16 @@ const hasGuessed = ref(false);
 const points = ref<Array<GeoPoint & { isTarget?: boolean } & { username?: string }>>([]);
 const roundStore = useRoundStore();
 const musicStore = useMusiqueStore();
+const mapSelect = useTemplateRef('map-select');
+const router = useRouter();
+const loaderReady = ref<boolean>(false);
 
 watch(() => multiplayer.currentLocationId, (newId) => {
   if (newId) {
+    loaderReady.value = false;
     hasGuessed.value = false;
     pictureId.value = newId;
+    points.value = [];
   }
 });
 
@@ -26,6 +32,7 @@ function onValidate(position: GeoPoint) {
   }
   multiplayer.submitGuess(position.lat, position.lng);
   hasGuessed.value = true;
+  mapSelect.value.resetPosition();
 }
 
 function timeOutValidation() {
@@ -35,13 +42,18 @@ function timeOutValidation() {
   }
   multiplayer.submitGuess(0, 0);
   hasGuessed.value = true;
+  mapSelect.value.resetPosition();
 }
 
 onMounted(() => {
   pictureId.value = multiplayer.currentLocationId;
-  console.log(pictureId);
   if (musicStore.isPlaying) {
     musicStore.pause();
+  }
+
+  // Redirect to home if no initial picture ID
+  if(!pictureId.value) {
+    router.push('/');
   }
 });
 
@@ -58,8 +70,6 @@ const waitingPlayers = computed(() => {
 });
 
 watch(() => multiplayer.guesses, (newGuesses) => {
-    console.log("GUESSES CHANGED:", JSON.stringify(newGuesses, null, 2));
-
     if (!multiplayer.realLocation) return;
 
     points.value = [{
@@ -89,7 +99,7 @@ watch(() => multiplayer.guesses, (newGuesses) => {
       </div>
       <div class="title">Chargement...</div>
     </div>
-    <div class="countdown" v-if="!hasGuessed">
+    <div class="countdown" v-if="!hasGuessed && loaderReady">
       <div class="row-top">
         <div class="multiplayer-info">
           <AppButton>Joueurs: {{ multiplayer.players.length }}</AppButton>
@@ -100,7 +110,7 @@ watch(() => multiplayer.guesses, (newGuesses) => {
           <Icon v-else @click="updateMusic()" name="tabler:volume-off"/>
         </div>
       </div>
-      <AppTimer :start="60" @timeout="timeOutValidation"/>
+      <AppTimer :start="120" @timeout="timeOutValidation"/>
     </div>
     <div v-else class="waiting">
       <template v-if="waitingPlayers.length > 1">
@@ -115,15 +125,21 @@ watch(() => multiplayer.guesses, (newGuesses) => {
           </div>
         </div>
       </template>
+      <div v-else-if="!loaderReady" class="waiting-title">
+        Chargement...
+      </div>
+      <div v-else-if="points.length <= 1" class="waiting-title">
+        En attente des résultats...
+      </div>
       <div class="map-overview" v-else>
         <div class="waiting-title">
-          Round terminé, prochain round dans 10 secondes...
+          Round terminé, prochain round dans quelques instants...
         </div>
         <MapResultMulti :points="points" />
       </div>
     </div>
-    <MapViewer v-if="pictureId" :picture-id="pictureId"/>
-    <MapSelect @validate="onValidate"/>
+    <MapViewer v-if="pictureId" :picture-id="pictureId" @picready="() => loaderReady = true"/>
+    <MapSelect ref="map-select" @validate="onValidate"/>
   </div>
 </template>
 

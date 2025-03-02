@@ -32,21 +32,27 @@ const adjustMapBounds = () => {
   if (!mapRef.value || !mapRef.value.leafletObject) return;
 
   const leafletMap = mapRef.value.leafletObject;
-  if (props.points.length > 1) {
-    const latLngs = props.points.map((point) => L.latLng(point.lat, point.lng));
+  const validPoints = props.points.filter(isValidPoint);
+
+  if (validPoints.length > 1) {
+    const latLngs = validPoints.map((point) => L.latLng(point.lat, point.lng));
     const bounds = L.latLngBounds(latLngs);
 
     leafletMap.fitBounds(bounds, {
       padding: [50, 50],
       maxZoom: 15,
     });
-  } else if (props.points.length === 1) {
+  } else if (validPoints.length === 1) {
     leafletMap.setView(
-        [props.points[0].lat, props.points[0].lng],
+        [validPoints[0].lat, validPoints[0].lng],
         defaultZoom
     );
   }
 };
+
+function isValidPoint(p) {
+  return p.lat != 0 || p.lng != 0;
+}
 
 watch(
     () => mapRef.value?.ready,
@@ -61,8 +67,6 @@ watch(
     () => props.points,
     () => {
       if (mapRef.value?.ready) {
-        console.log("Map points are:", JSON.stringify(props.points, null, 2));
-
         nextTick(() => {
           adjustMapBounds();
         })
@@ -91,16 +95,19 @@ function getColorCodeFromName(name: string) {
   return color;
 }
 
-const createDivIcon = (isTarget: boolean | undefined, avatar: string | undefined) => {
+const createDivIcon = (avatar: string | undefined) => {
   if(avatar) {
     const backgroundColor = getColorCodeFromName(avatar);
     const name = avatar.slice(0,1).toUpperCase() + avatar.slice(1,2).toLowerCase();
     return L.divIcon({
-      className: isTarget ? 'flag-marker' : 'avatar-marker',
+      className: 'avatar-marker',
       html: `<div class="avatar-wrapper" style="background-color: ${backgroundColor}">${name}</div>`,
       iconSize: [32, 32],
-      iconAnchor: [16, isTarget ? 32 : 16],
+      iconAnchor: [16, 16],
     });
+  }
+  else {
+    return L.icon({iconUrl: "flag.png", iconSize: [32, 32], iconAnchor: [16, 32]});
   }
 };
 </script>
@@ -121,15 +128,15 @@ const createDivIcon = (isTarget: boolean | undefined, avatar: string | undefined
           name="OpenStreetMap"
       />
       <LMarker
-          v-for="(point, index) in props.points"
+          v-for="(point, index) in props.points.filter(isValidPoint)"
           :key="index"
           :lat-lng="[point.lat, point.lng]"
-          :icon="createDivIcon(point.isTarget, point.username)"
+          :icon="createDivIcon(point.isTarget ? undefined : point.username)"
       >
       </LMarker>
       <template v-if="props.points.length > 1">
         <LPolyline
-            v-for="(point, index) in guessPoints"
+            v-for="(point, index) in guessPoints.filter(isValidPoint)"
             :key="index"
             :color="getColorCodeFromName(point.username!)"
             :lat-lngs="[
@@ -144,7 +151,7 @@ const createDivIcon = (isTarget: boolean | undefined, avatar: string | undefined
 
 <style scoped lang="scss">
 .map-result-wrapper {
-  height: 500px;
+  height: 50vh;
   width: 100%;
   border-radius: 10px;
   border: 4px solid white;

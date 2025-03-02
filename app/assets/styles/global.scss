@@ -77,15 +77,17 @@ html, body {
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(10deg, $darker-color 0%, $blue-color 100%);
   color: $blue-shade-1;
 }
 
 a {
-  text-decoration: none;
   color: $white-color;
+}
+
+button a, .buttons a {
+  text-decoration: none;
 }
 
 h1, h2, h3 {
