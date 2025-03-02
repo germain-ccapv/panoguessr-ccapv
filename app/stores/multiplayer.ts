@@ -149,8 +149,6 @@ export const useMultiplayer = defineStore('multiplayer', {
         async getScores(gameId: string) {
             this.loading = true
             try {
-                console.log("About to send the getScores");
-                console.log("the ws is:", this.ws);
                 this.ws?.send(JSON.stringify({
                     action: 'getScores',
                     gameId,

@@ -37,7 +37,7 @@ const titleClasses = ref('');
 const playRevealSound = () => {
   const audio = new Audio('/sounds/reveal.mp3');
   audio.volume = 0.5;
-  audio.play().catch(e => console.log('Audio playback prevented:', e));
+  audio.play().catch(e => console.warn('Audio playback prevented:', e));
 };
 
 const revealNextScore = () => {
@@ -131,7 +131,7 @@ onMounted(() => {
       <div class="button-container">
         <transition name="bounce">
           <AppButton v-if="animationComplete">
-            <NuxtLink to="/">Retour</NuxtLink>
+            <a href="/">Retour</a>
           </AppButton>
         </transition>
       </div>

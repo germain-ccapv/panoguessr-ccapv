@@ -22,7 +22,6 @@ export const useMusiqueStore = defineStore('musique', {
         },
         toggleMusic() {
             this.isPlaying ? this.pause() : this.play();
-            console.log(this.isPlaying);
         }
     },
 })

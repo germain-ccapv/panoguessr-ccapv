@@ -35,6 +35,10 @@ withDefaults(defineProps<Props>(), {
   transform: translateY(0px) skew(-10deg);
   gap: 0.3rem;
 
+  a {
+    text-decoration: none;
+  }
+
   &:hover {
     background: linear-gradient(-10deg, $blue-shade-4 0%, $blue-shade-2 110%);
     box-shadow: none;

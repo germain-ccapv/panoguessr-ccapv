@@ -7,12 +7,19 @@
     <div class="homepage">
       <div class="home-title">Crédits</div>
       <div class="credit_content">
-        <div class="subtitle">Dépôt Gitlab</div>
-        <div class="content">Le dépôt Gitlab est à l'adresse suivante: <a href="https://gitlab.com/panoguessr/panoguessr.com">https://gitlab.com/panoguessr/panoguessr.com</a></div>
+        <div class="content">La version initiale de PanoGuessr a été réalisée par Corentin Barbedette Clément Guibout et Maxandre Rochefort (étudiants de l'IMT Atlantique), sur une idée originale de l'équipe <a href="https://panoramax.fr" target="_blank">Panoramax</a>.</div>
+      </div>
+      <div class="credit_content">
+        <div class="subtitle">Code source</div>
+        <div class="content">
+          Le code source de PanoGuessr est disponible sous licence MIT sur ce <a href="https://gitlab.com/panoguessr/panoguessr.com">dépôt GitLab</a>.
+        </div>
       </div>
       <div class="credit_content">
         <div class="subtitle">Licenses et crédits</div>
-        <div class="content">Les licenses sont disponibles sur le dépôt, à l'adresse suivante: <a href="https://gitlab.com/panoguessr/panoguessr.com/-/blob/develop/LICENSE">https://gitlab.com/panoguessr/panoguessr.com/-/blob/develop/LICENSE</a></div>
+        <div class="content">
+          Les détails sont présentés dans le <a href="https://gitlab.com/panoguessr/panoguessr.com/-/blob/develop/LICENSE">fichier LICENSE du dépôt Gitlab</a>.
+        </div>
       </div>
     </div>
     <AppButton>
@@ -29,8 +36,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-inline: 50px;
-  margin-top: 20px;
+  padding-inline: 50px;
+  padding-top: 20px;
   gap: 2rem;
 
   .homepage {

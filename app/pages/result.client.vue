@@ -58,7 +58,7 @@ const formattedDistance = computed(() => formatDistance(distanceMeters.value));
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
   .result {
     display: flex;
