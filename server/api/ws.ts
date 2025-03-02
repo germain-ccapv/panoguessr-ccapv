@@ -19,13 +19,13 @@ function generateRandomPoint() {
 
 async function createGameLocationId(): Promise<string> {
     try {
-        const randomPoint = generateRandomPoint();
-        const panoramaxLocation = await queryPanoramaxAPI(randomPoint);
-
-        if (!panoramaxLocation?.features?.[0]?.id) {
-            throw new Error('Invalid location data');
+        while(true) {
+            const randomPoint = generateRandomPoint();
+            const panoramaxLocation = await queryPanoramaxAPI(randomPoint);
+            if(panoramaxLocation) {
+                return panoramaxLocation;
+            }
         }
-        return panoramaxLocation.features[0].id;
     } catch (error) {
         console.error('Failed to get location:', error);
         throw error;

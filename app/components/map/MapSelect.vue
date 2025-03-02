@@ -30,7 +30,8 @@ function onMapIn() {
 }
 
 function validatePosition() {
-  emits('validate', position.value)
+  emits('validate', position.value);
+  isMapBigger.value = false;
 }
 
 function resetPosition() {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Viewer } from '@panoramax/web-viewer/build/index';
+import { getAPIUrl } from '#imports';
 
 const props = defineProps<{
   pictureId: string;
@@ -16,7 +17,7 @@ watch(() => props.pictureId, (newPictureId) => {
 });
 
 onMounted(() => {
-  viewer.value = new Viewer("viewer", "https://api.panoramax.xyz/api", {
+  viewer.value = new Viewer("viewer", getAPIUrl(), {
     map: false,
     hash: false,
     selectedPicture: props.pictureId

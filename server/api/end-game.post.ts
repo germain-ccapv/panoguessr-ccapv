@@ -1,4 +1,5 @@
 import { GeoPoint } from '~~/types/geo';
+import { getAPIUrl } from '~/utils/panoramax';
 
 type EndGameRequest = {
   originPicId: string;
@@ -29,7 +30,7 @@ export function haversineDistance(point1: GeoPoint, point2: GeoPoint): number {
 
 export async function getPicturePosition(pictureId: string): Promise<GeoPoint> {
   const response = await fetch(
-    `https://api.panoramax.xyz/api/search?ids=${pictureId}`,
+    getAPIUrl(`/search?ids=${pictureId}`),
     {
       method: 'GET',
       headers: {

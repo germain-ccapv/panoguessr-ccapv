@@ -1,10 +1,10 @@
 # PanoGuessr.com
 
-**➡️ Let's play now on http://panoguessr.com**
+**➡️ Let's play now on https://panoguessr.com**
 
 ![Logo PanoGuessr](<Logo PanoGuessr.png>)
 
-"Where is this [Panoramax](https://gitlab.com/groups/panoramax) picture located again?"
+"Where is this [Panoramax](https://gitlab.com/panoramax) picture located again?"
 
 
 ## License
