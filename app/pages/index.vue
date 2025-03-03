@@ -92,19 +92,29 @@ function startGame() {
     <AppHeader :music="musicStore.isPlaying"/>
     <div class="homepage">
       <div class="left">
-        <div class="home-title">Bienvenue !</div>
-        <div class="home-subtitle">PANOGUESSR est un jeu <span class="blue">collaboratif</span> et <span class="blue">open-source</span> qui teste vos connaissances en géographie.</div>
+        <div class="home-title">La devinette géographique !</div>    
+        <div class="home-subtitle">Voici une photo, à vous de trouver où elle se situe sur une carte.</div>
         <div>
           <div class="buttons">
             <NuxtLink href="/game"><AppButton>Partie solo</AppButton></NuxtLink>
             <AppButton @click="openMultiplayerMenu">Multijoueur</AppButton>
-            <NuxtLink href="/credits"><AppButton>Crédits</AppButton></NuxtLink>
           </div>
         </div>
       </div>
-
       <div class="right">
         <img src="~/assets/world.svg" alt="world" />
+      </div>
+    </div>
+  </div>
+  <div class="about">
+    <div class="left">
+      <img class="pnx-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Panoramax.svg/480px-Panoramax.svg.png" alt="" />
+    </div>
+    <div class="right">
+      <div class="home-subtitle">PanoGuessr est basé sur Panoramax, le géocommuns des photos de rues libres et gratuites.</div>
+      <div class="buttons">
+        <a href="https://panoramax.fr" target="_blank"><AppButton>En savoir plus</AppButton></a>
+        <NuxtLink href="/credits"><AppButton>Crédits</AppButton></NuxtLink>
       </div>
     </div>
   </div>
@@ -113,11 +123,6 @@ function startGame() {
 <style scoped lang="scss">
 @use '~/assets/styles/global' as *;
 
-.blue {
-  text-decoration: underline 5px solid $blue-shade-1;
-  text-underline-offset: 8px
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -125,11 +130,75 @@ function startGame() {
   align-items: center;
   margin-inline: 50px;
   margin-top: 20px;
+  margin-bottom: 40px;
   gap: 2rem;
 
 
   @media screen and (max-width: 500px) {
     margin-inline: 20px;
+  }
+}
+
+.about {
+  margin: 0;
+  padding: 80px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  color: $white-color;
+  background: $black-color;
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width: 500px) {
+    padding: 20px;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 400px;
+  }
+}
+
+.about:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url('/images/panoramax_bg.jpg');
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+}
+
+.about .left {
+  flex: 1;
+  text-align: center;
+
+  @media screen and (max-width: 500px) {
+    flex: unset;
+  }
+}
+
+.about .right {
+  flex: 2 1;
+
+  @media screen and (max-width: 500px) {
+    flex: unset;
+  }
+}
+
+.pnx-logo {
+  max-width: 200px;
+  width: 100%;
+  animation: bounce 5s infinite;
+  opacity: 1;
+
+  @media screen and (max-width: 500px) {
+    animation-duration: 15s;
+    height: 100px;
   }
 }
 
@@ -143,23 +212,24 @@ function startGame() {
   gap: 1rem;
 
   @media screen and (max-width: 500px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    gap: 50px;
   }
 }
 
-.left {
-  flex: 1;
+.homepage .left {
+  flex: 2 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
   height: 100%;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .home-title {
   font-family: "Neo Extra", sans-serif;
-  font-size: 4rem;
+  font-size: 2.2rem;
   color: $white-color;
 
 
@@ -173,13 +243,12 @@ function startGame() {
   font-size: 1.5rem;
   text-align: justify;
   line-height: 2.5rem;
-  max-width: 85%;
   color: $white-color;
 }
 
 .buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   margin-top: 25px;
   align-items: start;
@@ -250,7 +319,7 @@ li {
   padding: 0.5rem 0;
 }
 
-.right {
+.homepage .right {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -261,6 +330,10 @@ li {
     transform: scale(0.85);
     object-fit: cover;
     animation: bounce 10s infinite;
+
+    @media screen and (max-width: 500px) {
+      height: 150px;
+    }
   }
 }
 

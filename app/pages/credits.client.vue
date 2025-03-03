@@ -78,7 +78,8 @@
 
       .content {
         font-family: "Neo Medium", sans-serif;
-        font-size: 0.85rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
         color: $white-color;
         text-align: justify;
       }

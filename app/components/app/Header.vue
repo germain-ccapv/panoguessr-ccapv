@@ -23,7 +23,7 @@ const props = defineProps<{
 
   .title {
     font-family: "Mahoda", sans-serif;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: $white-color;
   }
 
