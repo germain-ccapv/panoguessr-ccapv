@@ -126,6 +126,11 @@ function startGame() {
   margin-inline: 50px;
   margin-top: 20px;
   gap: 2rem;
+
+
+  @media screen and (max-width: 500px) {
+    margin-inline: 20px;
+  }
 }
 
 .homepage {
@@ -136,6 +141,10 @@ function startGame() {
   width: 95%;
   height: 100%;
   gap: 1rem;
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+  }
 }
 
 .left {
@@ -152,6 +161,11 @@ function startGame() {
   font-family: "Neo Extra", sans-serif;
   font-size: 4rem;
   color: $white-color;
+
+
+  @media screen and (max-width: 500px) {
+    font-size: 2rem;
+  }
 }
 
 .home-subtitle {

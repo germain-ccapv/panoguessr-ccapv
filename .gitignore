@@ -17,6 +17,8 @@ logs
 .DS_Store
 .fleet
 .idea
+*.zip
+.pytest_cache
 
 # Local env files
 .env

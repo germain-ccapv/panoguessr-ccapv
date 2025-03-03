@@ -7,7 +7,7 @@
     <div class="homepage">
       <div class="home-title">Crédits</div>
       <div class="credit_content">
-        <div class="content">La version initiale de PanoGuessr a été réalisée par Corentin Barbedette Clément Guibout et Maxandre Rochefort (étudiants de l'IMT Atlantique), sur une idée originale de l'équipe <a href="https://panoramax.fr" target="_blank">Panoramax</a>.</div>
+        <div class="content">La version initiale de PanoGuessr a été réalisée par Corentin Barbedette, Clément Guibout et Maxandre Rochefort (étudiants de l'IMT Atlantique), sur une idée originale de l'équipe <a href="https://panoramax.fr" target="_blank">Panoramax</a>.</div>
       </div>
       <div class="credit_content">
         <div class="subtitle">Code source</div>
@@ -40,6 +40,10 @@
   padding-top: 20px;
   gap: 2rem;
 
+  @media screen and (max-width: 500px) {
+    padding-inline: 20px;
+  }
+
   .homepage {
     display: flex;
     flex-direction: column;
@@ -53,6 +57,10 @@
       font-family: "Neo Extra", sans-serif;
       font-size: 4rem;
       color: $white-color;
+
+      @media screen and (max-width: 500px) {
+        font-size: 3rem;
+      }
     }
 
     .credit_content {
