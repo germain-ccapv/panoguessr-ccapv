@@ -3,11 +3,15 @@ export type GeoPoint = {
   lng: number;
 };
 
-export type GeoBoundingBox = {
-  minLng: number;
-  maxLng: number;
-  minLat: number;
-  maxLat: number;
+export type GeoCoordinatesPolygon = number[][];
+
+export type GeoJSON = {
+  type: string | "Feature",
+  geometry: GeoCoordinatesPolygon,
+  properties: object
 }
 
-export type GeoCoordinatesPolygon = number[][];
+export type Picture = {
+  id: string,
+  position: GeoPoint
+}

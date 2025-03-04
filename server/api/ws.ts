@@ -1,9 +1,7 @@
-import {getRandomPointInPolygon} from "~~/server/utils/geo";
-import franceGeoJSON from "assets/data/geo/france.json";
 import {Peer} from "crossws";
-import {queryPanoramaxAPI} from "~~/server/api/start-new-game.post";
-import {getPicturePosition, haversineDistance} from "~~/server/api/end-game.post";
-import {gameState, Game, Player, Guess} from "~~/server/utils/gameState";
+import {haversineDistance} from "~~/server/api/end-game.post";
+import {gameState, Game, Guess} from "~~/server/utils/gameState";
+import { getPanoramaxPictureIDs } from "~/utils/panoramax";
 
 function createGameId(): string {
     return Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -13,46 +11,21 @@ function createPlayerId(): string {
     return Math.random().toString(36).substring(2, 10);
 }
 
-function generateRandomPoint() {
-    return getRandomPointInPolygon(franceGeoJSON.geometry.coordinates[0][0]);
-}
-
-async function createGameLocationId(): Promise<string> {
-    try {
-        while(true) {
-            const randomPoint = generateRandomPoint();
-            const panoramaxLocation = await queryPanoramaxAPI(randomPoint);
-            if(panoramaxLocation) {
-                return panoramaxLocation;
-            }
-        }
-    } catch (error) {
-        console.error('Failed to get location:', error);
-        throw error;
-    }
-}
-
 async function handleCreateGame(peer: Peer, username: string) {
     const gameId = createGameId();
     const playerId = createPlayerId();
     const player = { id: playerId, username };
 
     try {
-        const firstLocation = await createGameLocationId();
-        const firstPosition = await getPicturePosition(firstLocation);
+        const pictures = (await getPanoramaxPictureIDs(5));
         const game: Game = {
             id: gameId,
             status: 'waiting',
             players: [player],
-            locations: [firstLocation],
+            locations: pictures.map(p => p.id),
             currentRound: 0,
             guesses: {},
-            realPositions: {
-                0: {
-                    lat: firstPosition.lat,
-                    lng: firstPosition.lng
-                }
-            }
+            realPositions: pictures.map(p => p.position)
         };
 
         gameState.setGame(gameId, game);
@@ -151,14 +124,7 @@ async function handleGuess(peer: Peer, gameId: string, playerId: string, guessPo
 
     if (allPlayersGuessed) {
         try {
-            const nextLocation = await createGameLocationId();
-            game.locations.push(nextLocation);
-            const realPosition = await getPicturePosition(nextLocation);
-
-            game.realPositions[game.currentRound + 1] = {
-                lat: realPosition.lat,
-                lng: realPosition.lng
-            };
+            const nextLocation = game.locations[game.currentRound + 1];
 
             peer.send(JSON.stringify({
                 action: 'roundComplete',

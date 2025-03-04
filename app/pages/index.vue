@@ -6,6 +6,7 @@ const musicStore = useMusiqueStore();
 
 const multiplayerMenu = ref<boolean>(false);
 const multiplayerMenuOpened = ref<boolean>(false);
+const multiplayerMenuWaiting = ref<boolean>(false);
 const multiplayerMenuCodeOpened = ref<boolean>(false);
 const pseudoInputOpened = ref<boolean>(false);
 
@@ -20,13 +21,15 @@ function openMultiplayerMenu() {
   multiplayerMenu.value = true;
   multiplayerMenuOpened.value = true;
   multiplayerMenuCodeOpened.value = false;
+  multiplayerMenuWaiting.value = false;
   pseudoInputOpened.value = false;
 }
 
-function joinGame() {
+async function joinGame() {
   if (pseudo.value && joinGameId.value) {
     multiplayer.joinGame(joinGameId.value, pseudo.value);
   } else {
+    multiplayerMenuWaiting.value = true;
     multiplayer.createGame(pseudo.value);
   }
   multiplayerMenu.value = false;
@@ -76,8 +79,8 @@ function startGame() {
       <AppButton @click="openCodeInput">Rejoindre une partie</AppButton>
     </template>
   </Modal>
-  <Modal title="Salle d'attente" v-model:isVisible="multiplayer.gameId">
-    <template #body class="game-lobby">
+  <Modal title="Salle d'attente" v-model:isVisible="multiplayerMenuWaiting">
+    <template #body class="game-lobby" v-if="multiplayer.gameId">
       <div class="game-code">Code de la partie: <span class="bold_code">{{ multiplayer.gameId }}</span></div>
       <div class="players-list">
         <div class="players_title">Joueurs :</div>
@@ -86,6 +89,9 @@ function startGame() {
         </ul>
       </div>
       <AppButton v-if="multiplayer.players[0]?.id === multiplayer.playerId" @click="startGame">Démarrer la partie</AppButton>
+    </template>
+    <template #body class="game-lobby" v-else>
+      <div class="game-wait-creation">Préparation des photos...</div>
     </template>
   </Modal>
   <div class="container">
@@ -285,10 +291,13 @@ function startGame() {
   width: 100%;
 }
 
-.game-code {
+.game-code, .game-wait-creation {
   font-family: "Neo Regular", sans-serif;
   font-size: 1rem;
   padding: 1rem;
+}
+
+.game-code {
   background: rgba($blue-shade-1, 0.2);
   border-radius: 4px;
 }

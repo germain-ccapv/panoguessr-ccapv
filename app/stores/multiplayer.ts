@@ -135,7 +135,7 @@ export const useMultiplayer = defineStore('multiplayer', {
         async createGame(username: string) {
             this.loading = true
             try {
-                this.ws?.send(JSON.stringify({
+                await this.ws?.send(JSON.stringify({
                     action: 'create',
                     username
                 }))
