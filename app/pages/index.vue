@@ -113,16 +113,19 @@ function startGame() {
     </div>
   </div>
   <div class="about">
-    <div class="left">
-      <img class="pnx-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Panoramax.svg/480px-Panoramax.svg.png" alt="" />
-    </div>
-    <div class="right">
-      <div class="home-subtitle">PanoGuessr est basé sur Panoramax, le géocommuns des photos de rues libres et gratuites.</div>
-      <div class="buttons">
-        <a href="https://panoramax.fr" target="_blank"><AppButton>En savoir plus</AppButton></a>
-        <NuxtLink href="/credits"><AppButton>Crédits</AppButton></NuxtLink>
+    <div class="about-columns">
+      <div class="left">
+        <img class="pnx-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Panoramax.svg/480px-Panoramax.svg.png" alt="" />
+      </div>
+      <div class="right">
+        <div class="home-subtitle">PanoGuessr est basé sur Panoramax, le géocommuns des photos de rues libres et gratuites.</div>
+        <div class="buttons">
+          <a href="https://panoramax.fr" target="_blank"><AppButton>En savoir plus</AppButton></a>
+          <NuxtLink href="/credits"><AppButton>Crédits</AppButton></NuxtLink>
+        </div>
       </div>
     </div>
+    <iframe class="viewer" src="https://api.panoramax.xyz/#focus=pic&map=17/48.857143/2.29424&pic=40036f4e-d266-48e1-948d-0f0fa3ce681e&speed=250&xyz=33.51/24.95/0"></iframe>
   </div>
 </template>
 
@@ -153,33 +156,26 @@ function startGame() {
   box-sizing: border-box;
   color: $white-color;
   background: $black-color;
-  display: flex;
-  align-items: center;
 
   @media screen and (max-width: 500px) {
     padding: 20px;
-    flex-direction: column;
-    justify-content: center;
     min-height: 400px;
   }
 }
 
-.about:before {
-  content: ' ';
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.2;
-  background-image: url('/images/panoramax_bg.jpg');
-  background-repeat: no-repeat;
-  background-position: 50% 0;
-  background-size: cover;
+.about-columns {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
-.about .left {
+.about-columns .left {
   flex: 1;
   text-align: center;
 
@@ -188,12 +184,20 @@ function startGame() {
   }
 }
 
-.about .right {
+.about-columns .right {
   flex: 2 1;
 
   @media screen and (max-width: 500px) {
     flex: unset;
   }
+}
+
+.viewer {
+  height: 500px;
+  max-height: 80%;
+  width: 100%;
+  position: relative;
+  border: none;
 }
 
 .pnx-logo {

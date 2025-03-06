@@ -1,5 +1,4 @@
-import searchArea from '@/assets/data/geo/search_area.json';
-import { getRandomPointsInPolygon } from '~~/server/utils/geo';
+import { getRandomPoints } from '~~/server/utils/geo';
 import type { GeoPoint, Picture } from '~~/types/geo';
 
 
@@ -19,10 +18,6 @@ export function getAPIUrl(route: string = "") {
  * @return Picture ID & position
  */
 export async function getPanoramaxPictureIDs(amount: number = 1): Promise<Picture[]> {
-  if (searchArea.geometry.type !== 'MultiPolygon' || !searchArea.geometry.coordinates) {
-    throw new Error('Invalid GeoJSON data');
-  }
-
   let pictures: Picture[] = [];
   let randomPoints: GeoPoint[] = [];
   let trials = 0;
@@ -30,7 +25,7 @@ export async function getPanoramaxPictureIDs(amount: number = 1): Promise<Pictur
   do {
     // Get random geo positions
     if(randomPoints.length === 0) {
-      randomPoints = getRandomPointsInPolygon(searchArea);
+      randomPoints = getRandomPoints();
     }
 
     // Call Panoramax API

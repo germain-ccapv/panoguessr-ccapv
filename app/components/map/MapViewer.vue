@@ -46,14 +46,8 @@ onMounted(() => {
   }
 }
 
-:deep(#gvs-widget-legend) {
-  display: none;
-}
-
-:deep(#gvs-widget-share) {
-  display: none;
-}
-
+:deep(#gvs-widget-legend),
+:deep(#gvs-widget-share),
 :deep(#gvs-widget-player) {
   display: none;
 }
