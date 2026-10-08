@@ -1,152 +1,397 @@
+```vue
 <script setup lang="ts">
-import {Howl} from 'howler';
-import type {GeoPoint} from "~~/types/geo";
 
-const {data} = useFetch("/api/start-new-game", {
-  method: 'POST'
-});
+import { Howl } from 'howler';
 
-const clockTickingSound = useState<Howl>('clock-ticking-sound');
+import type { GeoPoint } from "~~/types/geo";
 
-const pictureId = ref<string | null>(null);
-const loaderReady = ref<boolean>(false);
-const router = useRouter();
-const positionStore = usePositionStore();
-const roundStore = useRoundStore();
-const musicStore = useMusiqueStore();
+import {
+  getPanoramaxPictureIDs,
+  haversineDistance
+} from '~/utils/panoramax';
 
-watch(data, () => {
-  pictureId.value = data.value.locationId;
-})
 
-async function onValidate(position: GeoPoint) {
-  const resp = await $fetch(`/api/end-game`, {
-    method: 'POST',
-    body: {
-      originPicId: pictureId.value,
-      guessPosition: position,
+const clockTickingSound =
+  useState<Howl>('clock-ticking-sound');
+
+
+const pictureId =
+  ref<string | null>(null);
+
+const picturePosition =
+  ref<GeoPoint | null>(null);
+
+const loaderReady =
+  ref<boolean>(false);
+
+
+const router =
+  useRouter();
+
+const positionStore =
+  usePositionStore();
+
+const roundStore =
+  useRoundStore();
+
+const musicStore =
+  useMusiqueStore();
+
+
+/**
+ * Start a new round.
+ *
+ * The Panoramax API is called directly from
+ * the browser. No Nuxt server API is required.
+ */
+onMounted(async () => {
+
+  try {
+
+    const pictures =
+      await getPanoramaxPictureIDs(1);
+
+    if (pictures.length > 0) {
+
+      pictureId.value =
+        pictures[0].id;
+
+      picturePosition.value =
+        pictures[0].position;
     }
-  });
 
-  if (clockTickingSound.value) {
-    clockTickingSound.value.fade(0.2, 0, 500);
-    clockTickingSound.value = null;
+  } catch (error) {
+
+    console.error(
+      'Impossible de trouver une photo Panoramax',
+      error
+    );
   }
 
-  positionStore.setStartPosition(resp.originPoint.lat, resp.originPoint.lng);
-  positionStore.setEndPosition(position.lat, position.lng);
-  positionStore.setDistance(resp.distance_meters);
 
-  await router.push('/result');
-}
-
-async function timeOutValidation() {
-  const resp = await $fetch(`/api/end-game`, {
-    method: 'POST',
-    body: {
-      originPicId: pictureId.value,
-      guessPosition: {lat: 0, lng: 0},
-    }
-  });
-
-  if (clockTickingSound.value) {
-    clockTickingSound.value.fade(0.2, 0, 500);
-    clockTickingSound.value = null;
-  }
-
-  positionStore.setStartPosition(resp.originPoint.lat, resp.originPoint.lng);
-  positionStore.setEndPosition(0, 0);
-  positionStore.setDistance(resp.distance_meters);
-
-  await router.push('/result');
-}
-
-onMounted(() => {
-  if(musicStore.isPlaying) {
+  if (musicStore.isPlaying) {
     musicStore.pause();
   }
+
 });
 
+
+/**
+ * Validate the player's guess.
+ */
+async function onValidate(
+  position: GeoPoint
+) {
+
+  if (!picturePosition.value) {
+    console.error(
+      'Position Panoramax inconnue'
+    );
+
+    return;
+  }
+
+
+  // Calculate the distance directly in the browser.
+  const distance =
+    haversineDistance(
+      picturePosition.value,
+      position
+    );
+
+
+  // Stop ticking sound.
+  if (clockTickingSound.value) {
+
+    clockTickingSound.value.fade(
+      0.2,
+      0,
+      500
+    );
+
+    clockTickingSound.value = null;
+  }
+
+
+  // Store the result.
+  positionStore.setStartPosition(
+    picturePosition.value.lat,
+    picturePosition.value.lng
+  );
+
+  positionStore.setEndPosition(
+    position.lat,
+    position.lng
+  );
+
+  positionStore.setDistance(
+    Math.round(distance)
+  );
+
+
+  // Go to result page.
+  await router.push('/result');
+}
+
+
+/**
+ * Validate the round when the timer expires.
+ *
+ * A timeout is represented by a guess at
+ * coordinates 0,0, exactly as in the original game.
+ */
+async function timeOutValidation() {
+
+  if (!picturePosition.value) {
+    console.error(
+      'Position Panoramax inconnue'
+    );
+
+    return;
+  }
+
+
+  const timeoutPosition: GeoPoint = {
+    lat: 0,
+    lng: 0
+  };
+
+
+  const distance =
+    haversineDistance(
+      picturePosition.value,
+      timeoutPosition
+    );
+
+
+  // Stop ticking sound.
+  if (clockTickingSound.value) {
+
+    clockTickingSound.value.fade(
+      0.2,
+      0,
+      500
+    );
+
+    clockTickingSound.value = null;
+  }
+
+
+  // Store the result.
+  positionStore.setStartPosition(
+    picturePosition.value.lat,
+    picturePosition.value.lng
+  );
+
+  positionStore.setEndPosition(
+    0,
+    0
+  );
+
+  positionStore.setDistance(
+    Math.round(distance)
+  );
+
+
+  // Go to result page.
+  await router.push('/result');
+}
+
+
+/**
+ * Toggle background music.
+ */
 function updateMusic() {
   musicStore.toggleMusic();
 }
+
 </script>
 
+
 <template>
+
   <div class="page">
-    <div v-if="!pictureId" class="loading">
-      <AppButton>Round {{roundStore.round}} / 5</AppButton>
-      <div class="title">Chargement...</div>
-    </div>
-    <template v-else>
-      <div v-if="loaderReady" class="countdown">
-        <div class="row-top">
-          <AppButton>Round {{roundStore.round}} / 5</AppButton>
-          <div class="vol_button">
-            <Icon v-if="musicStore.isPlaying" @click="updateMusic()" name="tabler:volume"/>
-            <Icon v-else @click="updateMusic()" name="tabler:volume-off"/>
-          </div>
-        </div>
-        <AppTimer :start="120" @timeout="timeOutValidation"/>
+
+    <!-- Loading screen -->
+
+    <div
+      v-if="!pictureId"
+      class="loading"
+    >
+
+      <AppButton>
+        Round {{ roundStore.round }} / 5
+      </AppButton>
+
+      <div class="title">
+        Chargement...
       </div>
-      <MapViewer :picture-id="pictureId" @picready="() => loaderReady = true" />
-      <MapSelect @validate="onValidate"/>
+
+    </div>
+
+
+    <!-- Game -->
+
+    <template v-else>
+
+      <div
+        v-if="loaderReady"
+        class="countdown"
+      >
+
+        <div class="row-top">
+
+          <AppButton>
+            Round {{ roundStore.round }} / 5
+          </AppButton>
+
+
+          <div
+            class="vol_button"
+            @click="updateMusic()"
+          >
+
+            <Icon
+              v-if="musicStore.isPlaying"
+              name="tabler:volume"
+            />
+
+            <Icon
+              v-else
+              name="tabler:volume-off"
+            />
+
+          </div>
+
+        </div>
+
+
+        <AppTimer
+          :start="120"
+          @timeout="timeOutValidation"
+        />
+
+      </div>
+
+
+      <MapViewer
+        :picture-id="pictureId"
+        @picready="() => loaderReady = true"
+      />
+
+
+      <MapSelect
+        @validate="onValidate"
+      />
+
     </template>
+
   </div>
+
 </template>
 
+
 <style scoped lang="scss">
+
 @use '~/assets/styles/global' as *;
 
+
 .page {
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
+
   width: 100vw;
+
   height: 100vh;
+
 }
+
 
 .countdown {
+
   position: absolute;
+
   display: flex;
+
   flex-direction: column;
+
   align-items: end;
+
   z-index: 1000;
+
   top: 1rem;
+
   right: 1rem;
+
   margin: 1rem;
+
   gap: 1rem;
 
+
   .row-top {
+
     display: flex;
+
     flex-direction: row;
+
     gap: 1rem;
+
     align-items: center;
+
     justify-content: center;
 
+
     .vol_button {
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       padding: 5px;
+
       background-color: $dark-color;
+
       border: 2px solid $blue-shade-2;
+
       border-radius: 100px;
+
       cursor: pointer;
+
     }
+
   }
+
 }
+
 
 .loading {
+
   display: flex;
+
   flex-direction: column;
+
   justify-content: center;
+
   align-items: center;
+
   gap: 2rem;
 
+
   .title {
+
     font-family: "Mahoda", sans-serif;
+
     font-size: 1.25rem;
+
   }
+
 }
+
 </style>
+```
