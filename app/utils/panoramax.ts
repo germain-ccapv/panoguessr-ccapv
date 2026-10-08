@@ -356,4 +356,3 @@ export function haversineDistance(
 
   return R * c;
 }
-```
