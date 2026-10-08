@@ -1,0 +1,7 @@
+services:
+  panoguessr:
+    build: .
+    container_name: panoguessr-ccapv
+    restart: unless-stopped
+    ports:
+      - "3000:3000"

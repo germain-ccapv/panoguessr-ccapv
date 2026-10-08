@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // SPA uniquement pour le build statique GitHub Pages (BASE_PATH défini) ; SSR + serveur Node sinon (Docker)
+  ssr: !process.env.BASE_PATH,
+
   app: {
+    baseURL: process.env.BASE_PATH || '/',
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
