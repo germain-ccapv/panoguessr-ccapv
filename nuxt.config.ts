@@ -1,3 +1,9 @@
+import { realpathSync } from 'node:fs'
+import { join } from 'node:path'
+
+// pinia n'est pas une dépendance directe : on le résout depuis @pinia/nuxt (compatible pnpm)
+const piniaDir = realpathSync(join(realpathSync('node_modules/@pinia/nuxt'), '..', '..', 'pinia'))
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // SPA uniquement pour le build statique GitHub Pages (BASE_PATH défini) ; SSR + serveur Node sinon (Docker)
@@ -16,6 +22,11 @@ export default defineNuxtConfig({
   },
   future: {
       compatibilityVersion: 4
+  },
+
+  alias: {
+      // Force la version ESM de pinia (la version CJS casse vue-demi dans le bundle serveur)
+      pinia: join(piniaDir, 'dist/pinia.mjs')
   },
 
   modules: [
