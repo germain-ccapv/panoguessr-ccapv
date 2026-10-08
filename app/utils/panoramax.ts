@@ -1,4 +1,4 @@
-```ts
+
 import type { GeoPoint, Picture } from '~~/types/geo';
 
 import { booleanIntersects } from '@turf/boolean-intersects';
