@@ -11,7 +11,13 @@ const startPosition = computed(() => positionStore.startPosition);
 const endPosition = computed(() => positionStore.endPosition);
 const distanceMeters = computed(() => positionStore.distance);
 const noGuess = computed(() => endPosition.value.lat === 0 && endPosition.value.lng === 0);
-const points = noGuess.value ? 0 : Math.round(5000 * Math.pow(0.9999925, distanceMeters.value));
+//const points = noGuess.value ? 0 : Math.round(5000 * Math.pow(0.9999925, distanceMeters.value));
+
+const MAX_DISTANCE = 150_000; // 100 km en mètres : au-delà, 0 point
+
+const points = noGuess.value || distanceMeters.value >= MAX_DISTANCE
+  ? 0
+  : Math.round(5000 * Math.exp(-distanceMeters.value / 6000));
 roundStore.addScore(points);
 
 function play() {

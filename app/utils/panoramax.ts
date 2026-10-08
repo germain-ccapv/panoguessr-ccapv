@@ -165,10 +165,10 @@ export async function queryPanoramaxAPI(
         limit: 1,
 
         bbox: [
-          point.lng - 2,
-          point.lat - 2,
-          point.lng + 2,
-          point.lat + 2
+          point.lng - 0.1,
+          point.lat - 0.1,
+          point.lng + 0.1,
+          point.lat + 0.1
         ],
 
         filter: 'field_of_view=360'
@@ -243,7 +243,7 @@ export async function queryPanoramaxAPI(
         await collectionResponse.json();
 
       if (
-        collectionData?.['stats:items']?.count >= 30
+        collectionData?.['stats:items']?.count >= 10
       ) {
         return picture;
       }

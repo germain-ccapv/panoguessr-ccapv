@@ -1,0 +1,8 @@
+services:
+  panoguessr:
+    networks:
+      - mergin
+
+networks:
+  mergin:
+    external: true
