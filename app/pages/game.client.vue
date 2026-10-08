@@ -1,4 +1,3 @@
-```vue
 <script setup lang="ts">
 
 import { Howl } from 'howler';
@@ -394,4 +393,3 @@ function updateMusic() {
 }
 
 </style>
-```
