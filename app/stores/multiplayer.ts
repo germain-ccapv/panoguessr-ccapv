@@ -105,7 +105,8 @@ export const useMultiplayer = defineStore('multiplayer', {
 
                 case 'nextLocation':
                     this.currentLocationId = data.locationId;
-                    this.guesses = []
+    this.guesses = [];
+    this.roundScores = [];
 
                     if (roundStore.round === 5) {
                         roundStore.reset();
