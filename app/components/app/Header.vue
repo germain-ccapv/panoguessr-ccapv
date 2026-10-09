@@ -6,7 +6,7 @@ const props = defineProps<{
 
 <template>
   <header class="header" music>
-    <div class="title">PANOGUESSR</div>
+    <div class="title">PANOGUESSR DE LA CCAPV</div>
     <UserProfile :music="music"/>
   </header>
 </template>
@@ -25,6 +25,10 @@ const props = defineProps<{
     font-family: "Mahoda", sans-serif;
     font-size: 2.5rem;
     color: $white-color;
+
+    @media screen and (max-width: 600px) {
+      font-size: 1.4rem;
+    }
   }
 
   .header__nav-list {
