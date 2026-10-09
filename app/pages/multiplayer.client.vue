@@ -135,6 +135,15 @@ watch(() => multiplayer.guesses, (newGuesses) => {
         <div class="waiting-title">
           Round terminé, prochain round dans quelques instants...
         </div>
+          <div class="round-scores" v-if="multiplayer.roundScores.length">
+    <div v-for="rs in sortedRoundScores" :key="rs.playerId" class="round-score-item">
+      <span class="rs-player">
+        {{ multiplayer.players.find(p => p.id === rs.playerId)?.username || '?' }}
+      </span>
+      <span class="rs-distance">{{ formatDistance(rs.distance) }}</span>
+      <span class="rs-points">+{{ rs.points.toLocaleString('fr-FR') }} pts</span>
+    </div>
+  </div>
         <MapResultMulti :points="points" />
       </div>
     </div>
