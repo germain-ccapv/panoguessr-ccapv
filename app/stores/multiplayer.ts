@@ -86,10 +86,18 @@ export const useMultiplayer = defineStore('multiplayer', {
             const roundStore = useRoundStore();
             switch (data.action) {
                 case 'gameCreated':
-                    this.gameId = data.gameId
-                    this.playerId = data.playerId
-                    this.players = data.players
-                    break
+    this.gameId = data.gameId
+    this.playerId = data.playerId
+    this.players = data.players
+    router.push('/lobby')     // ← nouveau
+    break
+
+case 'joined':
+    this.gameId = data.gameId
+    this.playerId = data.playerId
+    this.players = data.players
+    router.push('/lobby')     // ← nouveau
+    break
 
                 case 'playerListUpdated':
                     this.players = data.players
