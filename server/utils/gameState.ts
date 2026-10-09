@@ -65,44 +65,34 @@ export const gameState = {
   /**
    * Calcule les scores pour un jeu
    */
-  calculateScores(gameId: string, haversineDistance: (p1: GeoPoint, p2: GeoPoint) => number): Array<{position: number, player: string, score: number}> {
-    const game = games.get(gameId);
-    if (!game) {
-      return [];
-    }
+calculateScores(gameId: string, haversineDistance: (p1: GeoPoint, p2: GeoPoint) => number): Array<{position: number, player: string, score: number}> {
+  const game = games.get(gameId);
+  if (!game) return [];
 
-    // D'abord, calculer les distances totales par joueur
-    const rawScores = Object.entries(game.guesses).reduce((acc, [round, roundGuesses]) => {
-      roundGuesses.forEach(guess => {
-        const player = game.players.find(p => p.id === guess.playerId);
-        if (player && game.realPositions[parseInt(round)]) {
-          const distance = haversineDistance(
-            {
-              lat: guess.position.latitude || guess.position.lat,
-              lng: guess.position.longitude || guess.position.lng
-            },
-            game.realPositions[parseInt(round)]
-          );
-          acc[player.username] = (acc[player.username] || 0) + distance;
-        }
-      });
-      return acc;
-    }, {} as { [key: string]: number });
+  // Points par round, même règle que le solo
+  const pointsForDistance = (d: number) =>
+    Math.round(5000 * Math.exp(-d / 6000));
 
-    // Convertir en tableau avec position
-    const scoreArray = Object.entries(rawScores)
-      .map(([player, score]) => ({
-        player,
-        score,
-        position: 0 // Sera défini après le tri
-      }))
-      .sort((a, b) => a.score - b.score); // Trier par score croissant (meilleur score = distance la plus courte)
-
-    // Attribuer les positions
-    scoreArray.forEach((item, index) => {
-      item.position = index + 1;
+  const rawScores = Object.entries(game.guesses).reduce((acc, [round, roundGuesses]) => {
+    roundGuesses.forEach(guess => {
+      const player = game.players.find(p => p.id === guess.playerId);
+      if (player && game.realPositions[parseInt(round)]) {
+        const distance = haversineDistance(
+          { lat: guess.position.lat, lng: guess.position.lng },
+          game.realPositions[parseInt(round)]
+        );
+        const points = Number.isFinite(distance) ? pointsForDistance(distance) : 0;
+        acc[player.username] = (acc[player.username] || 0) + points;
+      }
     });
+    return acc;
+  }, {} as { [key: string]: number });
 
-    return scoreArray;
-  }
+  const scoreArray = Object.entries(rawScores)
+    .map(([player, score]) => ({ player, score, position: 0 }))
+    .sort((a, b) => b.score - a.score); // tri DÉCROISSANT : plus de points = mieux
+
+  scoreArray.forEach((item, index) => { item.position = index + 1; });
+  return scoreArray;
+}
 };
