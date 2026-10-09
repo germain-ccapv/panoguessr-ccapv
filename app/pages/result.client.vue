@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { computed } from 'vue';
-import {useRoundStore} from "~/stores/round";
+import {useRoundStore, MAX_ROUNDS, MAX_POINTS_PER_ROUND} from "~/stores/round";
 
 const router = useRouter();
 
@@ -13,21 +13,30 @@ const distanceMeters = computed(() => positionStore.distance);
 const noGuess = computed(() => endPosition.value.lat === 0 && endPosition.value.lng === 0);
 //const points = noGuess.value ? 0 : Math.round(5000 * Math.pow(0.9999925, distanceMeters.value));
 
-const MAX_DISTANCE = 150_000; // 100 km en mètres : au-delà, 0 point
+const MAX_DISTANCE = 150_000; // 150 km en mètres : au-delà, 0 point
 
 const points = noGuess.value || distanceMeters.value >= MAX_DISTANCE
   ? 0
-  : Math.round(5000 * Math.exp(-distanceMeters.value / 6000));
-roundStore.addScore(points);
+  : Math.round(MAX_POINTS_PER_ROUND * Math.exp(-distanceMeters.value / 6000));
+roundStore.setRoundScore(points);
+
+const isLastRound = computed(() => roundStore.round >= MAX_ROUNDS);
+const maxTotal = MAX_ROUNDS * MAX_POINTS_PER_ROUND;
+const formatPoints = (value: number) => value.toLocaleString('fr-FR');
 
 function play() {
-  if (roundStore.round === 5) {
-    roundStore.reset();
-    router.push("/");
-  } else {
-    roundStore.nextRound();
-    router.push("/game");
-  }
+  roundStore.nextRound();
+  router.push("/game");
+}
+
+function replay() {
+  roundStore.reset();
+  router.push("/game");
+}
+
+function goHome() {
+  roundStore.reset();
+  router.push("/");
 }
 
 function formatDistance(distance: number): string {
@@ -50,7 +59,21 @@ const formattedDistance = computed(() => formatDistance(distanceMeters.value));
       <h4 v-if="!noGuess" class="distance">Distance : {{ formattedDistance }}</h4>
       <h4 v-if="noGuess" class="distance">Temps écoulé !</h4>
       <MapResult :start-position="startPosition" :end-position="endPosition" />
-      <AppButton @click="play">{{ roundStore.round === 5 ? 'Terminer' : 'Suivant' }}</AppButton>
+      <div v-if="isLastRound" class="final">
+        <h2 class="final_title">Partie terminée !</h2>
+        <div class="final_score">{{ formatPoints(roundStore.score) }} <span>/ {{ formatPoints(maxTotal) }} points</span></div>
+        <ul class="final_rounds">
+          <li v-for="(roundPoints, index) in roundStore.scores" :key="index">
+            <span>Manche {{ index + 1 }}</span>
+            <strong>{{ formatPoints(roundPoints) }}</strong>
+          </li>
+        </ul>
+        <div class="final_actions">
+          <AppButton @click="replay">Rejouer</AppButton>
+          <AppButton @click="goHome">Accueil</AppButton>
+        </div>
+      </div>
+      <AppButton v-else @click="play">Suivant</AppButton>
     </div>
   </div>
 </template>
@@ -96,6 +119,53 @@ const formattedDistance = computed(() => formatDistance(distanceMeters.value));
         font-size: 1rem;
         font-family: 'Neo Bold', sans-serif;
         color: $blue-shade-1;
+      }
+    }
+
+    .final {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'Neo Bold', sans-serif;
+      color: $white-color;
+
+      .final_title {
+        font-size: 1.8rem;
+      }
+
+      .final_score {
+        font-size: 3rem;
+
+        span {
+          font-size: 1.2rem;
+          color: $blue-shade-1;
+        }
+      }
+
+      .final_rounds {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem 1.5rem;
+
+        li {
+          display: flex;
+          gap: 0.5rem;
+
+          span {
+            color: $blue-shade-1;
+          }
+        }
+      }
+
+      .final_actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
       }
     }
   }
