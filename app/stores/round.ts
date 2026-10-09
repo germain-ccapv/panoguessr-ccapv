@@ -1,20 +1,30 @@
 import { defineStore } from 'pinia'
 
+export const MAX_ROUNDS = 5;
+export const MAX_POINTS_PER_ROUND = 5000;
+
 export const useRoundStore = defineStore('round', {
     state: () => ({
         round: 1,
-        score: 0,
+        // Points obtenus à chaque manche (index 0 = manche 1).
+        scores: [] as number[],
     }),
+    getters: {
+        // Total de la partie en cours.
+        score: (state): number => state.scores.reduce((total, points) => total + points, 0),
+    },
     actions: {
         nextRound() {
             this.round += 1;
         },
-        addScore(score: number) {
-            this.score += score;
+        // Enregistre le score de la manche en cours.
+        // Idempotent : recharger la page résultat ne compte pas deux fois.
+        setRoundScore(points: number) {
+            this.scores[this.round - 1] = points;
         },
         reset() {
-            this.score = 0;
-            this.round = 1
+            this.scores = [];
+            this.round = 1;
         },
     },
 })
