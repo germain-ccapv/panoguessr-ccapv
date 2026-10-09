@@ -88,6 +88,16 @@ watch(() => multiplayer.guesses, (newGuesses) => {
     });
 
 }, { deep: true });
+  const sortedRoundScores = computed(() =>
+  [...multiplayer.roundScores].sort((a, b) => b.points - a.points)
+);
+
+function formatDistance(distance: number): string {
+  if (distance >= 1000) {
+    return `${(distance / 1000).toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km`;
+  }
+  return `${distance.toLocaleString('fr-FR')} m`;
+}
 </script>
 
 <template>
@@ -173,7 +183,26 @@ watch(() => multiplayer.guesses, (newGuesses) => {
   left: 30px;
   right: 30px;
 }
+.round-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(400px, 90vw);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba($blue-shade-1, 0.2);
+  border-radius: 8px;
 
+  .round-score-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: "Neo Regular", sans-serif;
+    color: $white-color;
+
+    .rs-points { font-family: "Neo Bold", sans-serif; }
+  }
+}
 .waiting {
   display: flex;
   flex-direction: column;
