@@ -27,9 +27,9 @@ export interface MultiplayerStore {
     currentLocationId: string | null;
     realLocation: { lat: number; lng: number } | null;
     guesses: Guess[];
+    roundScores: RoundScore[];      // ← nouveau
     loading: boolean;
     error: string | null;
-    roundScores: RoundScore[];
 }
 
 export const useMultiplayer = defineStore('multiplayer', {
