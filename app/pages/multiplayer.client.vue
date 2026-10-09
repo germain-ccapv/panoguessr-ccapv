@@ -78,15 +78,14 @@ watch(() => multiplayer.guesses, (newGuesses) => {
       isTarget: true,
     }];
 
-    newGuesses.forEach((guess: { playerId: string, position: { playerId: string, latitude: number, longitude: number } }) => {
+    newGuesses.forEach((guess: { playerId: string, position: { lat: number, lng: number } }) => {
       points.value.push({
-        lat: guess.position.latitude,
-        lng: guess.position.longitude,
+        lat: guess.position.lat,          // ← corrigé
+        lng: guess.position.lng,          // ← corrigé
         isTarget: false,
         username: multiplayer.players.find(p => p.id === guess.playerId)?.username,
       });
     });
-
 }, { deep: true });
   const sortedRoundScores = computed(() =>
   [...multiplayer.roundScores].sort((a, b) => b.points - a.points)
