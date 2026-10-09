@@ -126,17 +126,34 @@ async function handleGuess(peer: Peer, gameId: string, playerId: string, guessPo
         try {
             const nextLocation = game.locations[game.currentRound + 1];
 
-            peer.send(JSON.stringify({
-                action: 'roundComplete',
-                guesses: game.guesses[game.currentRound],
-                realPosition: game.realPositions[game.currentRound]
-            }));
+        // Score de chaque guess du round (même barème que le solo)
+        const pointsForDistance = (d: number) => Math.round(5000 * Math.exp(-d / 6000));
+        const roundScores = game.guesses[game.currentRound].map(guess => {
+            const real = game.realPositions[game.currentRound];
+            const distance = haversineDistance(
+                { lat: guess.position.lat, lng: guess.position.lng },
+                real
+            );
+            return {
+                playerId: guess.playerId,
+                distance: Math.round(distance),
+                points: Number.isFinite(distance) ? pointsForDistance(distance) : 0
+            };
+        });
 
-            peer.publish(`game:${gameId}`, JSON.stringify({
-                action: 'roundComplete',
-                guesses: game.guesses[game.currentRound],
-                realPosition: game.realPositions[game.currentRound]
-            }));
+        peer.send(JSON.stringify({
+            action: 'roundComplete',
+            guesses: game.guesses[game.currentRound],
+            realPosition: game.realPositions[game.currentRound],
+            roundScores            // ← nouveau
+        }));
+
+        peer.publish(`game:${gameId}`, JSON.stringify({
+            action: 'roundComplete',
+            guesses: game.guesses[game.currentRound],
+            realPosition: game.realPositions[game.currentRound],
+            roundScores            // ← nouveau
+        }));
 
             game.currentRound++;
 
