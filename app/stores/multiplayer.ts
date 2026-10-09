@@ -13,6 +13,11 @@ export interface Guess {
     distance?: number
     score?: number
 }
+export interface RoundScore {
+    playerId: string;
+    distance: number;
+    points: number;
+}
 
 export interface MultiplayerStore {
     connected: boolean;
@@ -24,6 +29,7 @@ export interface MultiplayerStore {
     guesses: Guess[];
     loading: boolean;
     error: string | null;
+    roundScores: RoundScore[];
 }
 
 export const useMultiplayer = defineStore('multiplayer', {
@@ -112,9 +118,10 @@ export const useMultiplayer = defineStore('multiplayer', {
                     break
                 
                 case 'roundComplete':
-                    this.realLocation = data.realPosition
-                    this.guesses = data.guesses || [];
-                    break;
+    this.realLocation = data.realPosition
+    this.guesses = data.guesses || [];
+    this.roundScores = data.roundScores || [];
+    break;
 
                 case 'newGuess':
                     this.guesses.push(data.guess)
