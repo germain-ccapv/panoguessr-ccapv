@@ -109,7 +109,10 @@ async function handleGuess(peer: Peer, gameId: string, playerId: string, guessPo
 
     const guess: Guess = {
         playerId,
-        position: guessPosition
+               position: {
+            lat: guessPosition.latitude,
+            lng: guessPosition.longitude
+        }
     };
 
     game.guesses[game.currentRound].push(guess);
