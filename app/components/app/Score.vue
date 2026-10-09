@@ -7,7 +7,7 @@ const props = defineProps<{
 
 const formattedNumber = new Intl.NumberFormat('fr-FR', {
   minimumFractionDigits: 0,
-  maximumFractionDigits: 3
+  maximumFractionDigits: 0
 }).format(Math.round(props.points));
 
 </script>
